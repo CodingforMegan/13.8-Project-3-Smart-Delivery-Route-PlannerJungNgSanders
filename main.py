@@ -78,22 +78,46 @@ def main():
     filename = "sample_input.csv"
     graph = build_graph(filename)
 
-    # Optional traffic adjustment
+    # Adjust graph edge weights for time-of-day traffic
     time_of_day = "morning"
     adjust_for_traffic(graph, time_of_day)
 
     depot = "A"
-    deliveries = ["B", "C", "D", "E", "X"]
+    deliveries = ["B", "C", "D", "E", "X"]  # X is unreachable
 
-    print(f"Planning deliveries from depot: {depot}\\n")
+    print(f"--- Smart Delivery Planner ---")
+    print(f"Depot: {depot}")
+    print(f"Time of Day: {time_of_day}\n")
+
+    # 1. Test is_route_possible()
+    print("Checking route feasibility:")
+    for dest in deliveries:
+        possible = is_route_possible(graph, depot, dest)
+        print(f"  {depot} → {dest}: {'Possible' if possible else 'No Route'}")
+    print()
+
+    # 2. Test find_shortest_path()
+    print("Finding shortest paths:")
+    for dest in deliveries:
+        path = find_shortest_path(graph, depot, dest)
+        if path:
+            print(f"  {depot} → {dest}: {' -> '.join(path)}")
+        else:
+            print(f"  {depot} → {dest}: No Path Found")
+    print()
+
+    # 3. Use plan_delivery() to generate batch delivery plan
+    print("Delivery Plan Summary:")
     plans = plan_delivery(graph, depot, deliveries)
-
     for dest, path in plans:
         if path:
-            print(f"Delivery to {dest}: {' -> '.join(path)}")
+            print(f"  Delivery to {dest}: {' -> '.join(path)}")
         else:
-            print(f"Delivery to {dest}: No route found.")
-    # more implementations to call functions
+            print(f"  Delivery to {dest}: No Route")
+
+if __name__ == "__main__":
+    main()
+
 
 
 if __name__ == "__main()__":
