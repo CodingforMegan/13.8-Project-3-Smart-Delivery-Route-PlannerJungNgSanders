@@ -8,7 +8,9 @@ from graph_utils import Vertex
 from graph_utils import Edge
 from graph_utils import Graph
 from traffic_simulation import adjust_for_traffic
+from typing import List, Tuple, Optional
 import heapq
+
 
 def build_graph(filename):
     graph = GraphWithVertices()
@@ -20,14 +22,56 @@ def build_graph(filename):
     return graph
 
 
-def is_route_possible(graph, start, end):
-    pass
-  
-def find_shortest_path(graph, start, end):
-    pass
+def is_route_possible(graph, start: str, end: str) -> bool:
+    visited = set()
+    stack = [start]
+    while stack:
+        node = stack.pop()
+        if node == end:
+            return True
+        if node not in visited:
+            visited.add(node)
+            stack.extend(neigh.to for neigh in graph.neighbors(node))
+    return False
 
-def plan_delivery(graph, depot, deliveries):
-    pass
+
+def find_shortest_path(graph, start: str, end: str) -> Optional[List[str]]:
+    if start not in graph.get_nodes() or end not in graph.get_nodes():
+        return None
+
+    dist = {node: float("inf") for node in graph.get_nodes()}
+    prev = {node: None for node in graph.get_nodes()}
+    dist[start] = 0
+    queue = [(0, start)]
+
+    while queue:
+        curr_dist, u = heapq.heappop(queue)
+        if u == end:
+            break
+        for edge in graph.neighbors(u):
+            weight = edge.adjusted_travel_time()
+            if dist[u] + weight < dist[edge.to]:
+                dist[edge.to] = dist[u] + weight
+                prev[edge.to] = u
+                heapq.heappush(queue, (dist[edge.to], edge.to))
+
+    if dist[end] == float("inf"):
+        return None
+
+    path = []
+    node = end
+    while node:
+        path.append(node)
+        node = prev[node]
+    return list(reversed(path))
+
+
+def plan_delivery(graph, depot: str, deliveries: List[str]) -> List[Tuple[str, Optional[List[str]]]]:
+    plans = []
+    for dest in deliveries:
+        path = find_shortest_path(graph, depot, dest)
+        plans.append((dest, path))
+    return plans
 
 
 def main():
