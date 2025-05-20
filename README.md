@@ -11,9 +11,8 @@ project_3/
 ├           is_route_possible(graph, start, end)
 ├           find_shortest_path(graph, start, end)
 ├           plan_delivery(graph, start, end)
-├           adjust_for_traffic(graph, time_of_day)
 ├── graph_utils.py: Vertex class, Graph class, Edge class
-├── traffic_simulation.py (optional)
+├── traffic_simulation.py: adjust_for_traffic(graph, time_of_day)
 ├── design_doc.pdf
 ├── sample_input.csv
 └── README.md
