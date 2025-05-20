@@ -7,17 +7,30 @@
 from graph_utils import Vertex
 from graph_utils import Edge
 from graph_utils import Graph
+from traffic_simulation import adjust_for_traffic
 import heapq
+
 
 
 def main():
     filename = "sample_input.csv"
     graph = build_graph(filename)
-    
-    depot = "A"
-    deliveries = ["B", "C", "D", "E", "X"]  # 'X' is an unreachable point for testing
 
-    print(f"Planning deliveries from depot: {depot}\n")
+    # Optional traffic adjustment
+    time_of_day = "morning"
+    adjust_for_traffic(graph, time_of_day)
+
+    depot = "A"
+    deliveries = ["B", "C", "D", "E", "X"]
+
+    print(f"Planning deliveries from depot: {depot}\\n")
+    plans = plan_delivery(graph, depot, deliveries)
+
+    for dest, path in plans:
+        if path:
+            print(f"Delivery to {dest}: {' -> '.join(path)}")
+        else:
+            print(f"Delivery to {dest}: No route found.")
 
 # more implementations to call functions
 
@@ -41,9 +54,6 @@ def find_shortest_path(graph, start, end):
 def plan_delivery(graph, depot, deliveries):
     pass
 
-# Not sure if this method should be implemented here or in traffic_simulation.py
-def adjust_for_traffic(graph, time_of_day):
-    pass
 
 
 if __name__ == "__main()__":
