@@ -10,6 +10,24 @@ from graph_utils import Graph
 from traffic_simulation import adjust_for_traffic
 import heapq
 
+def build_graph(filename):
+    graph = GraphWithVertices()
+    with open(filename) as f:
+        next(f)
+        for line in f:
+            from_vertex, toward_vertex, distance, travel_time, traffic = line.strip().split(',')
+            graph.add_directed_edge(u, v, float(distance), float(travel_time), traffic=traffic)
+    return graph
+
+
+def is_route_possible(graph, start, end):
+    pass
+  
+def find_shortest_path(graph, start, end):
+    pass
+
+def plan_delivery(graph, depot, deliveries):
+    pass
 
 
 def main():
@@ -31,29 +49,7 @@ def main():
             print(f"Delivery to {dest}: {' -> '.join(path)}")
         else:
             print(f"Delivery to {dest}: No route found.")
-
-# more implementations to call functions
-
-
-def build_graph(filename):
-    graph = GraphWithVertices()
-    with open(filename) as f:
-        next(f)
-        for line in f:
-            from_vertex, toward_vertex, distance, travel_time, traffic = line.strip().split(',')
-            graph.add_directed_edge(u, v, float(distance), float(travel_time), traffic=traffic)
-    return graph
-
-
-def is_route_possible(graph, start, end):
-    pass
-  
-def find_shortest_path(graph, start, end):
-    pass
-
-def plan_delivery(graph, depot, deliveries):
-    pass
-
+    # more implementations to call functions
 
 
 if __name__ == "__main()__":
