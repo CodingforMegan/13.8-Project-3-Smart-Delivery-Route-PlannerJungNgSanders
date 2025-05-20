@@ -1,6 +1,6 @@
 # 13.8-Project-3-Smart-Delivery-Route-PlannerJungNgSanders
 
-## Group Members and Roles
+## Group Members
 Group Members: Michael Jung (ID:10680322), Timothy Sanders (ID: 01002147), Megan Ng (ID: 00756276)
 
 ## 🧠 Project Design & Structure
