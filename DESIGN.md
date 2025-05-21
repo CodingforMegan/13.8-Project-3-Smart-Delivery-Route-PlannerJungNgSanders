@@ -107,41 +107,53 @@
       ```
 - `get_vertex(label)`
   - Purpose: Given a label, this method retrieves the corresponding vertex from the Graph class instance `vertices` attribute
-  - Parameters:
-  - Returns:
+  - Parameters: `label` (string)
+  - Returns: The found Vertex instance
   - Pseudocode:
     - ```text
-
+      FUNCTION get_vertex(label)
+          RETURN the vertex instance matching the provided label FROM self.vertices
       ```
 - `add_directed_edge(from_vertex, to_vertex, distance, travel_time, traffic, time_of_day)`
-  - Purpose:
-  - Parameters:
-  - Returns:
+  - Purpose: The `add_directed_edge()` method takes in two Vertex instances and adds a record in the Graph instance `adjacency_list` dictionary to note that the two edges are adjacent to each other. This method is used to denote a one-way relationship between two vertices.
+  - Parameters: `from_vertex` (Vertex instance), `to_vertex` (Vertex instance), `distance` (float), `travel_time` (float), `traffic` (string), `time_of_day` (string)
+  - Returns: `None`
   - Pseudocode:
     - ```text
-
+      FUNCTION add_directed_edge(from_vertex, to_vertex, distance, travel_time, traffic, time_of_day)
+          ADD from_vertex WITH attributes TO self.vertices IF NOT EXISTS
+          ADD to_vertex WITH attributes TO self.vertices IF NOT EXISTS
+          ADD edge relationship TO self.adjacency_list
       ```
 - `add_undirected_edge(from_vertex, to_vertex, distance, travel_time, traffic, time_of_day)`
-  - Purpose:
-  - Parameters:
-  - Returns:
+  - Purpose: The `add_undirected_edge()` method takes in two Vertex instances and adds two directed edge relationships between them.
+  - Parameters: `from_vertex`, `to_vertex`, `distance`, `travel_time`, `traffic`, `time_of_day`
+  - Returns: `None`
   - Pseudocode:
     - ```text
-
+      FUNCTION add_undirected_edge(from_vertex, to_vertex, distance, travel_time, traffic, time_of_day)
+          CALL add_directed_edge(from_vertex, to_vertex, distance, travel_time, traffic, time_of_day)
+          CALL add_directed_edge(to_vertex, from_vertex, distance, travel_time, traffic, time_of_day)
       ```
 - `get_edge(from_vertex, to_vertex)`
-  - Purpose:
-  - Parameters:
-  - Returns:
+  - Purpose: The `get_edge()` method retrieves the Edge instance between the `from_vertex` and the `to_vertex`
+  - Parameters: `from_vertex` (Vertex instance), `to_vertex` (Vertex instance)
+  - Returns: The found Edge instance between the two vertices, otherwise `None`
   - Pseudocode:
     - ```text
-
+      FUNCTION get_edge(from_vertex, to_vertex)
+          IF a matching edge between from_index and to_index is found IN self.adjacency_list
+              RETURN matching edge
+          ELSE
+              RETURN None
       ```
 - `update_edge(from_vertex, to_vertex, key, value)`
-  - Purpose:
-  - Parameters:
-  - Returns:
+  - Purpose: For a given Edge instance (between `from_vertex` and `to_vertex`), set the given `key` to the provided `value`
+  - Parameters: `from_vertex`, `to_vertex`, `key`, `value`
+  - Returns: `None`
   - Pseudocode:
     - ```text
-
+      FUNCTION update_edge(from_vertex, to_vertex, key, value)
+          SET edge TO RESULT OF CALL get_edge(from_vertex, to_vertex)
+          SET edge.key EQUAL TO value
       ```
