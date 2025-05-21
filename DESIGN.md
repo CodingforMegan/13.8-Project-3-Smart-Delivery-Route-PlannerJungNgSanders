@@ -3,6 +3,92 @@
 - Date: 5/12/25
 - Course: Spr25_CS_034 CRN 39575
 
+## Main Module Pseudocode & Design
+### `build_graph()`
+- Purpose: The `build_graph()` function reads a file name and constructs a Graph instance, with the appropriate Vertex and Edge instances.
+- Parameters: `filename` (string)
+- Returns: Graph instance
+- Pseudocode:
+  - ```text
+    FUNCTION build_graph(filename)
+        CREATE empty Graph class instance
+        OPEN file FROM filename
+        FOR EACH line IN file
+            SET from_vertex, to_vertex, distance, travel_time, traffic FROM line.split()
+            CALL add_directed_edge(from_vertex, to_vertex, distance, travel_time, traffic)
+        RETURN Graph
+    ```
+### `is_route_possible()`
+- Purpose: The `is_route_possible()` function takes a given Graph instance, along with start and end vertices. The function then analyzes the graph to determine if a route between the two vertices is possible. If the route is possible, the function will return True, otherwise it will return False.
+- Parameters: `graph` (Graph instance), `start` (Vertex instance), `end` (Vertex instance)
+- Returns: Boolean
+- Pseudocode:
+  - ```text
+    FUNCTION is_route_possible(graph, start, end)
+        CREATE an empty set, visited
+        CREATE stack WITH the start vertex as the first item
+        WHILE stack IS NOT EMPTY
+            POP item FROM stack
+            IF item EQUALS end vertex
+                RETURN True
+            IF item NOT IN visited
+                ADD item TO visited
+                ADD item neighbors TO stack
+        RETURN False
+    ```
+### `find_shortest_path()`
+- Purpose: The `find_shortest_path()` function, as the name suggests, finds the shortest possible path between two given Vertex instances
+- Parameters: `graph` (Graph instance), `start` (Vertex instance) , `end` (Vertex instance)
+- Returns: A list of the vertices that compose the shortest route between the start and end path
+- Pseudocode:
+  - ```text
+    FUNCTION find_shortest_path(graph, start, end)
+        IF start OR end NOT IN graph
+            RETURN None
+        CREATE empty dictionary distance
+        CREATE empty dictionary prev
+        FOR vertex IN graph.get_nodes()
+            SET distance[vertex] TO infinity
+            SET previous[vertex] TO None
+        SET dist[start] TO 0
+        CREATE queue WITH (0, start)
+
+        WHILE queue IS NOT EMPTY
+            POP (curr_dist, u) WITH SMALLEST curr_dist FROM queue
+            IF u EQUALS end
+                BREAK
+            FOR edge IN graph.neighbors(u)
+                SET v TO edge.to
+                SET weight TO edge.adjusted_travel_time()
+                IF distance[u] + weight < distance[v]
+                    SET distance[v] TO distance[u] + weight
+                    SET previous[v] TO u
+                    ADD (distance[v], v) TO queue
+
+        IF distance[end] IS infinity
+            RETURN None
+
+        CREATE empty list path
+        SET node TO end
+        WHILE node IS NOT None
+            INSERT node AT FRONT OF path
+            SET node TO previous[node]
+        RETURN path
+    ```
+### `plan_delivery()`
+- Purpose: The `plan_delivery` function takes in a graph, a depot (starting Vertex instance) and a list of delivery destinations (Vertex instances). For each of the delivery vertices, it repeatedly calls `find_shortest_path()` to plan out a list of delivery paths.
+- Parameters: `graph` (Graph instance), `depot` (Vertex instance), `deliveries` (list of Vertex instances)
+- Returns: List of paths between `depot` and each Vertex in `deliveries`
+- Pseudocode:
+  - ```text
+    FUNCTION plan_delivery(graph, depot, deliveries)
+        CREATE list plans
+        FOR EACH delivery IN deliveries
+            CALL find_shortest_path(graph, depot, delivery)
+            ADD found path TO plans
+        RETURN plans
+    ```
+
 ## Class Pseudocode & Design
 ### `graph_utils.Vertex`
 - The `graph_utils.Vertex` class is used to manage attributes and methods for graph vertices.
