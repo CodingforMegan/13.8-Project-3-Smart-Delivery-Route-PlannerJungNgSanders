@@ -13,7 +13,7 @@ import heapq
 
 
 def build_graph(filename):
-    graph = GraphWithVertices()
+    graph = Graphs()
     with open(filename) as f:
         next(f)
         for line in f:
