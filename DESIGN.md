@@ -89,6 +89,21 @@
         RETURN plans
     ```
 
+## Traffic Simulation Module Pseudocode & Design
+### `adjust_for_traffic()`
+- Purpose: The `adjust_for_traffic()` function allows for adjusting the travel times of particular graph edges based on a given time of day.
+- Parameters: `graph` (Graph instance), `time_of_day` (string)
+- Returns: `None`
+- Pseudocode:
+  - ```text
+    FUNCTION adjust_for_traffic(graph, time_of_day)
+        SET traffic_level FROM time_of_day
+        FOR EACH node IN graph
+            FOR EACH edge IN node
+                SET edge.traffic TO traffic_level
+    ```
+
+
 ## Class Pseudocode & Design
 ### `graph_utils.Vertex`
 - The `graph_utils.Vertex` class is used to manage attributes and methods for graph vertices.
