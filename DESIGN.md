@@ -3,7 +3,38 @@
 - Date: 5/12/25
 - Course: Spr25_CS_034 CRN 39575
 
-## Main Module Pseudocode & Design
+```
+project_3/
+├── main.py:
+├           build_graph(filename)
+├           is_route_possible(graph, start, end)
+├           find_shortest_path(graph, start, end)
+├           plan_delivery(graph, start, end)
+├── graph_utils.py: Vertex class, Graph class, Edge class
+├── traffic_simulation.py:adjust_for_traffic(graph, time_of_day)
+├── design_doc.pdf
+├── sample_input.csv
+├── README.md
+└── DESIGN.md
+```
+  
+
+## Main Module Pseudocode & Design (main.py)
+=================================================
+
+### 'main()'
+- Purpose: The `main()` function serves as the central orchestrator for the Smart Delivery Route Planner, coordinating a sequence of operations to determine the optimal delivery route. Its primary goal is to balance travel time and distance while accounting for current traffic conditions—such as time of the day, road availability, and delivery urgency. Ultimately, it yields a route that meets the desired expectation of being both the shortest and most efficient.
+- Parameters: None
+- Returns: an instance of Graph, Boolean value `True/False` for route check, a sequence of vertex with travel distance or time
+- Pseudocode:
+  - ```text
+    # CALL build_graph(filename)to create a Graph instance
+    # CALL is_route_possible(graph, start, end)for the instance
+    # CALL find_shortest_path(graph, start, end)for the instance
+    # CALL plan_delivery(graph, start, end)for the instance
+    # CALL adjust_for_traffic(graph, time_of_day) for the instance
+    ```
+
 ### `build_graph()`
 - Purpose: The `build_graph()` function reads a file name and constructs a Graph instance, with the appropriate Vertex and Edge instances.
 - Parameters: `filename` (string)
@@ -75,6 +106,7 @@
             SET node TO previous[node]
         RETURN path
     ```
+
 ### `plan_delivery()`
 - Purpose: The `plan_delivery` function takes in a graph, a depot (starting Vertex instance) and a list of delivery destinations (Vertex instances). For each of the delivery vertices, it repeatedly calls `find_shortest_path()` to plan out a list of delivery paths.
 - Parameters: `graph` (Graph instance), `depot` (Vertex instance), `deliveries` (list of Vertex instances)
@@ -89,7 +121,9 @@
         RETURN plans
     ```
 
-## Traffic Simulation Module Pseudocode & Design
+## Traffic Simulation Module Pseudocode & Design (traffic_simulation.py)
+=================================================
+
 ### `adjust_for_traffic()`
 - Purpose: The `adjust_for_traffic()` function allows for adjusting the travel times of particular graph edges based on a given time of day.
 - Parameters: `graph` (Graph instance), `time_of_day` (string)
@@ -104,7 +138,9 @@
     ```
 
 
-## Class Pseudocode & Design
+## Class Pseudocode & Design (graph_utils.py)
+=================================================
+
 ### `graph_utils.Vertex`
 - The `graph_utils.Vertex` class is used to manage attributes and methods for graph vertices.
 ##### Attributes
