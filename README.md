@@ -7,10 +7,10 @@ Group Members: Michael Jung (ID:10680322), Timothy Sanders (ID: 01002147), Megan
 ```
 project_3/
 ├── main.py:
-├                   build_graph(filename)
-├                   is_route_possible(graph, start, end)
-├                   find_shortest_path(graph, start, end)
-├                   plan_delivery(graph, start, end)
+├           build_graph(filename)
+├           is_route_possible(graph, start, end)
+├           find_shortest_path(graph, start, end)
+├           plan_delivery(graph, start, end)
 ├── graph_utils.py: Vertex class, Graph class, Edge class
 ├── traffic_simulation.py: adjust_for_traffic(graph, time_of_day)
 ├── design_doc.pdf
