@@ -15,7 +15,8 @@ project_3/
 ├── traffic_simulation.py: adjust_for_traffic(graph, time_of_day)
 ├── design_doc.pdf
 ├── sample_input.csv
-└── README.md
+├── README.md
+└── DESIGN.md
 ```
 
 ## 📄 Overview
