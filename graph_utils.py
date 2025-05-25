@@ -27,7 +27,10 @@ class Edge:
         self.time_of_day = time_of_day
 
         # avoid division by zero
-        self.base_weight = self.distance / travel_time if travel_time > 0 else float("inf")
+        try:
+            self.base_weight = self.distance / travel_time
+        except ZeroDivisionError:
+            self.base_weight = float("inf")
 
     def adjusted_travel_time(self):
         """Return adjusted travel time based on traffic level."""
