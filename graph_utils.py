@@ -17,23 +17,36 @@ class Vertex:
     def __repr__(self):
         return f"Vertex(label={self.label}, lat={self.lat}, lon={self.lon})"
 
+
 class Edge:
     def __init__(self, to, distance, travel_time, traffic=None, time_of_day=None):
         self.to = to
         self.distance = distance
-        self.travel_time = travel_time
+        self.base_travel_time = travel_time  # static reference
         self.traffic = traffic
-        self.time = time_of_day
+        self.time_of_day = time_of_day
+
+        # avoid division by zero
+        self.base_weight = self.distance / travel_time if travel_time > 0 else float("inf")
 
     def adjusted_travel_time(self):
-        if self.traffic == "heavy":
-            return self.travel_time * 1.5
-        elif self.traffic == "light":
-            return self.travel_time * 0.8
-        return self.travel
+        """Return adjusted travel time based on traffic level."""
+        traffic_level = (self.traffic or "moderate").lower()
+
+        multiplier = {
+            "heavy": 1.5,
+            "moderate": 1.0,
+            "light": 0.8,
+            "high": 1.25,
+            "low": 0.75
+        }.get(traffic_level, 1.0)
+
+        return self.base_travel_time * multiplier
+
 
     def __repr__(self):
-        return f"---> {self.to} (distance={self.distance}, time={self.travel_time}, traffic={self.traffic})"
+        return f"---> {self.to} (distance={self.distance}, "
+               f"base_time={self.base_travel_time}, traffic={self.traffic})")
 
 class Graph:
     def __init__(self):
