@@ -6,16 +6,24 @@
 #----------------------------------------------
 
 import heapq
+import matplotlib.pyplot as plt
+import networkx as nx
 
 class Vertex:
-    def __init__(self, label, latitude=None, longitude=None, attributes=None):
+    def __init__(self, label, lat=None, lon=None):
         self.label = label
-        self.lat = latitude
-        self.lon = longitude
-        self.attributes = attributes or {}
+        self.lat = lat
+        self.lon = lon
+        self.neighbors = {} # {neighbor_vertex: edge}
+
+    def add_neighbor(self, neighbor, edge):
+        self.neighbors[neighbor] = edge
+
+    def __lt__(self, other):
+        return self.label < other.label
 
     def __repr__(self):
-        return f"Vertex(label={self.label}, lat={self.lat}, lon={self.lon})"
+        return f"Vertex({self.label}, lat={self.lat}, lon={self.lon})"
 
 
 class Edge:
@@ -52,40 +60,72 @@ class Edge:
 
 class Graph:
     def __init__(self):
+"""
+adjacency_list: key: vertex label, value: lists representing the edges originating from that vertex, for example, ('A': 'B', 'C', 'E')
+self.vertices: key: vertex label, value: corresponding Vertex object, for example, ('A': Vertex('A'))
+self.edges: key: a tuple (start_label, end_label), value: corresponding edges object, for example, (('A', 'E'): 15)
+"""
         self.adjacency_list = {}
         self.vertices = {}
-
-    def add_vertex(self, vertex):
-        self.vertices[vertex.label] = vertex
-        self.adjacency_list[vertex.label] = []
+        self.edges = {} 
+    
+    def add_vertex(self, label, lat=None, lon=None):
+        if label in self.vertices:
+            raise ValueError(f"Vertex with label {label} already exists.")
+        else:
+            new_vertex = Vertex(label, lat, lon)
+            self.vertices[label] = new_vertex
+            self.adjacency_list[label] = [] # Initialize adjacency list for the new vertex
 
     def get_vertex(self, label):
         return self.vertices.get(label)
 
-    def add_directed_edge(self, from_vertex, to_vertex, distance, travel_time, traffic=None, time_of_day=None):
-        if from_vertex not in self.vertices:
-            self.add_vertex(Vertex(from_vertex))
-        if to_vertex not in self.vertices:
-            self.add_vertex(Vertex(to_vertex))
-        edge = Edge(to_vertex, distance=distance, travel_time=travel_time, traffic=traffic, time_of_day=time_of_day)
-        self.adjacency_list[from_vertex].append(edge)
+    def add_directed_edge(self, start_label, end_label, distance, travel_time, traffic=None, time_of_day=None):
+        if start_label not in self.vertices:
+            # Instantiate Vertex class with start_label
+            self.add_vertex(start_label)
+        if end_label not in self.vertices:
+            # Instantiate Vertex class with end_label
+            self.add_vertex(end_label)
 
-    def add_undirected_edge(self, from_vertex, to_vertex, distance, travel_time, traffic=None, time_of_day=None):
-        self.add_directed_edge(from_vertex, to_vertex, distance, travel_time, traffic, time_of_day)
-        self.add_directed_edge(to_vertex, from_vertex, distance, travel_time, traffic, time_of_day)
+        # Ensure both vertices exist after potential creation
+        if start_label in self.vertices and end_label in self.vertices:
+            try:
+                new_edge = Edge(self.vertices[end_label], distance=distance, travel_time=travel_time, traffic=traffic, time_of_day=time_of_day)
+                self.adjacency_list[start_label].append(new_edge)
+                self.edges[(start_label, end_label)] = new_edge
+            except ZeroDivisionError:
+                print(f"Warning: Could not add edge from {start_label} to {end_label} due to zero travel time.")
+        else:
+            print(f"Warning: Could not add directed edge from {start_label} to {end_label} because one or both vertices could not be found or added.")
 
-    def get_edge(self, from_vertex, to_vertex):
-        for edge in self.adjacency_list.get(from_vertex, []):
-            if edge.to == to_vertex:
-                return edge
-        return None
+    def add_undirected_edge(self, start_label, end_label, distance, travel_time, traffic=None, time_of_day=None):
+        self.add_directed_edge(start_label, end_label, distance, travel_time, traffic, time_of_day)
+        self.add_directed_edge(end_label, start_label, distance, travel_time, traffic, time_of_day)
+    
+    def get_edge(self, start_label, end_label):
+        return self.edges.get((start_label, end_label))
 
-    def update_edge(self, from_vertex, to_vertex, key, value):
-        edge = self.get_edge(from_vertex, to_vertex)
-        if edge and hasattr(edge, key):
-            setattr(edge, key, value)
+    def update_edge(self, start_label, end_label, key, value):
+        edge = self.get_edge(start_label, end_label)
+        if edge: # Check if the edge exists
+            if hasattr(edge, key): # Check if the edge object has the specified attribute
+                setattr(edge, key, value)
+            else:
+                print(f"Warning: Edge from {start_label} to {end_label} does not have attribute '{key}'.")
+        else:
+            print(f"Warning: Edge from {start_label} to {end_label} not found.")
+
+    # Helper method to get neighbors (edges originating from a vertex)
+    def get_neighbors(self, vertex_label):
+        return self.adjacency_list.get(vertex_label, [])
+
+    # Helper method to get all vertex labels
+    def get_nodes(self):
+        return list(self.vertices.keys())
 
 
+'''
 if __name__ == "__main__":
     graph = Graph()
     graph.add_vertex(Vertex("A", 40.7128, -74.0060))
@@ -109,3 +149,4 @@ if __name__ == "__main__":
     print(graph.get_vertex("D"))
     print()
     print(graph.vertices)
+'''
