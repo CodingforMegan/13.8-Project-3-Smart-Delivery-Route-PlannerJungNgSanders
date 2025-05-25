@@ -45,8 +45,7 @@ class Edge:
 
 
     def __repr__(self):
-        return f"---> {self.to} (distance={self.distance}, "
-               f"base_time={self.base_travel_time}, traffic={self.traffic})")
+        return f"---> {self.to} (distance={self.distance}, base_time={self.base_travel_time}, traffic={self.traffic})"
 
 class Graph:
     def __init__(self):
