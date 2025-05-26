@@ -4,7 +4,8 @@
 
 #Course: Spr25_CS_034 CRN 39575
 #----------------------------------------------
-
+from traffic_simulation import get_traffic_multiplier
+from typing import List, Tuple, Optional
 import heapq
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -33,7 +34,7 @@ class Edge:
         self.base_travel_time = travel_time  # static reference
         self.traffic = traffic
         self.time_of_day = time_of_day
-
+       
         # avoid division by zero
         try:
             self.base_weight = self.distance / travel_time
@@ -41,22 +42,11 @@ class Edge:
             self.base_weight = float("inf")
 
     def adjusted_travel_time(self):
-        """Return adjusted travel time based on traffic level."""
-        traffic_level = (self.traffic or "moderate").lower()
-
-        multiplier = {
-            "heavy": 1.5,
-            "moderate": 1.0,
-            "light": 0.8,
-            "high": 1.25,
-            "low": 0.75
-        }.get(traffic_level, 1.0)
-
-        return self.base_travel_time * multiplier
-
+        return self.base_travel_time * get_traffic_multiplier(self.traffic)
 
     def __repr__(self):
-        return f"---> {self.to} (distance={self.distance}, base_time={self.base_travel_time}, traffic={self.traffic})"
+        return f"---> {self.to.label} (distance={self.distance}, base_time={self.base_travel_time}, traffic={self.traffic})"
+
 
 class Graph:
     def __init__(self):
@@ -69,13 +59,14 @@ self.edges: key: a tuple (start_label, end_label), value: corresponding edges ob
         self.vertices = {}
         self.edges = {} 
     
+
     def add_vertex(self, label, lat=None, lon=None):
         if label in self.vertices:
             raise ValueError(f"Vertex with label {label} already exists.")
-        else:
-            new_vertex = Vertex(label, lat, lon)
-            self.vertices[label] = new_vertex
-            self.adjacency_list[label] = [] # Initialize adjacency list for the new vertex
+        new_vertex = Vertex(label, lat, lon)
+        self.vertices[label] = new_vertex
+        self.adjacency_list[label] = [] # Initialize adjacency list for the new vertex
+
 
     def get_vertex(self, label):
         return self.vertices.get(label)
@@ -89,22 +80,22 @@ self.edges: key: a tuple (start_label, end_label), value: corresponding edges ob
             self.add_vertex(end_label)
 
         # Ensure both vertices exist after potential creation
-        if start_label in self.vertices and end_label in self.vertices:
-            try:
-                new_edge = Edge(self.vertices[end_label], distance=distance, travel_time=travel_time, traffic=traffic, time_of_day=time_of_day)
-                self.adjacency_list[start_label].append(new_edge)
-                self.edges[(start_label, end_label)] = new_edge
-            except ZeroDivisionError:
-                print(f"Warning: Could not add edge from {start_label} to {end_label} due to zero travel time.")
-        else:
-            print(f"Warning: Could not add directed edge from {start_label} to {end_label} because one or both vertices could not be found or added.")
+        try:
+            new_edge = Edge(self.vertices[end_label], distance, travel_time, traffic, time_of_day)
+            self.adjacency_list[start_label].append(new_edge)
+            self.edges[(start_label, end_label)] = new_edge
+        except ZeroDivisionError:
+            print(f"Warning: Could not add edge from {start_label} to {end_label} due to zero travel time.")
+
 
     def add_undirected_edge(self, start_label, end_label, distance, travel_time, traffic=None, time_of_day=None):
         self.add_directed_edge(start_label, end_label, distance, travel_time, traffic, time_of_day)
         self.add_directed_edge(end_label, start_label, distance, travel_time, traffic, time_of_day)
-    
+
+
     def get_edge(self, start_label, end_label):
         return self.edges.get((start_label, end_label))
+
 
     def update_edge(self, start_label, end_label, key, value):
         edge = self.get_edge(start_label, end_label)
@@ -125,28 +116,11 @@ self.edges: key: a tuple (start_label, end_label), value: corresponding edges ob
         return list(self.vertices.keys())
 
 
-'''
 if __name__ == "__main__":
-    graph = Graph()
-    graph.add_vertex(Vertex("A", 40.7128, -74.0060))
-    graph.add_vertex(Vertex("B", 34.0522, -118.2437))
-    graph.add_directed_edge("A", "B", 100, 60, traffic="heavy")
-    graph.add_directed_edge("B", "C", 200, 120, traffic="light")
-    print(graph.adjacency_list)
-    print()
-    print(graph.get_edge("A", "B"))
-    print()
-    print(graph.update_edge("A", "B", "distance", 50))
-    print()
-    print(graph.neighbors("A"))
-    print()
-    print(graph.get_nodes())
-    print()
-    print(graph.get_vertex("A"))
-    print()
-    print(graph.get_vertex("C"))
-    print()
-    print(graph.get_vertex("D"))
-    print()
-    print(graph.vertices)
-'''
+    graph_data = [
+        {'from_vertex': 'A', 'to_vertex': 'B', 'distance': 5, 'travel_time': 10, 'traffic': 'moderate'},
+        {'from_vertex': 'A', 'to_vertex': 'D', 'distance': 10, 'travel_time': 15, 'traffic': 'low'},
+        {'from_vertex': 'B', 'to_vertex': 'C', 'distance': 3, 'travel_time': 6, 'traffic': 'light'},
+        {'from_vertex': 'C', 'to_vertex': 'D', 'distance': 4, 'travel_time': 8, 'traffic': 'heavy'},
+        {'from_vertex': 'D', 'to_vertex': 'E', 'distance': 2, 'travel_time': 4, 'traffic': 'high'}
+    ]
