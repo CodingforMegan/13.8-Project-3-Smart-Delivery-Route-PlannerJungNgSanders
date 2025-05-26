@@ -31,18 +31,20 @@ class Edge:
     def __init__(self, to, distance, travel_time, traffic=None, time_of_day=None):
         self.to = to
         self.distance = distance
-        self.base_travel_time = travel_time  # static reference
+        self.base_travel_time = travel_time # static reference
         self.traffic = traffic
         self.time_of_day = time_of_day
-       
-        # avoid division by zero
-        try:
-            self.base_weight = self.distance / travel_time
-        except ZeroDivisionError:
-            self.base_weight = float("inf")
 
     def adjusted_travel_time(self):
-        return self.base_travel_time * get_traffic_multiplier(self.traffic)
+        multiplier = get_traffic_multiplier(self.traffic)
+        return self.base_travel_time * multiplier
+
+    def current_weight(self):
+        """Return a dynamic weight: distance / adjusted travel time"""
+        adjusted_time = self.adjusted_travel_time()
+        if adjusted_time == 0:
+            return float("inf")
+        return self.distance / adjusted_time  # higher = more efficient
 
     def __repr__(self):
         return f"---> {self.to.label} (distance={self.distance}, base_time={self.base_travel_time}, traffic={self.traffic})"
