@@ -73,21 +73,25 @@ self.edges: key: a tuple (start_label, end_label), value: corresponding edges ob
     def get_vertex(self, label):
         return self.vertices.get(label)
 
+
     def add_directed_edge(self, start_label, end_label, distance, travel_time, traffic=None, time_of_day=None):
         if start_label not in self.vertices:
             # Instantiate Vertex class with start_label
+            print(f"Vertex {start_label} does not exist. Adding it now.")
             self.add_vertex(start_label)
         if end_label not in self.vertices:
             # Instantiate Vertex class with end_label
+            print(f"Vertex {end_label} does not exist. Adding it now.")
             self.add_vertex(end_label)
 
         # Ensure both vertices exist after potential creation
         try:
             new_edge = Edge(self.vertices[end_label], distance, travel_time, traffic, time_of_day)
+            print(f"Adding edge from {start_label} to {end_label} with weight {new_edge.current_weight():.2f}")
             self.adjacency_list[start_label].append(new_edge)
-            self.edges[(start_label, end_label)] = new_edge
+            self.edges[(start_label, end_label)] = new_edge.current_weight()
         except ZeroDivisionError:
-            print(f"Warning: Could not add edge from {start_label} to {end_label} due to zero travel time.")
+            print(f"Warning: Could not add edge from {start_label} to {end_label}. Division by zero.")
 
 
     def add_undirected_edge(self, start_label, end_label, distance, travel_time, traffic=None, time_of_day=None):
