@@ -4,7 +4,6 @@
 
 #Course: Spr25_CS_034 CRN 39575
 #----------------------------------------------
-from graph_utils import Graph                      # core graph structure
 
 def get_traffic_multiplier(level):
     """Map traffic level to a multiplier used for travel time adjustment."""
