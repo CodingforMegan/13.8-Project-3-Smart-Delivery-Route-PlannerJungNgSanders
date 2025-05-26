@@ -115,24 +115,12 @@ def visualize_routes(graph, plans):
     plt.show()
 
 
+# =======================================
+# usage demo
+# ========================================
 def main():
-    # Prepare sample input
-    graph_data = [
-        {'from_vertex': 'A', 'to_vertex': 'B', 'distance': 5, 'travel_time': 10, 'traffic': 'moderate'},
-        {'from_vertex': 'A', 'to_vertex': 'D', 'distance': 10, 'travel_time': 15, 'traffic': 'low'},
-        {'from_vertex': 'B', 'to_vertex': 'C', 'distance': 3, 'travel_time': 6, 'traffic': 'light'},
-        {'from_vertex': 'C', 'to_vertex': 'D', 'distance': 4, 'travel_time': 8, 'traffic': 'heavy'},
-        {'from_vertex': 'D', 'to_vertex': 'E', 'distance': 2, 'travel_time': 4, 'traffic': 'high'}
-    ]
-
-    input_file = 'sample_input.csv'
-    with open(input_file, 'w', newline='') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=['from_vertex', 'to_vertex', 'distance', 'travel_time', 'traffic'])
-        writer.writeheader()
-        writer.writerows(graph_data)
-   
+    # Build graph and apply traffic   
     filename = "sample_input.csv"
-    # Build graph and apply traffic
     graph = build_graph(filename)
 
     
