@@ -9,6 +9,9 @@ from traffic_simulation import adjust_for_traffic
 from typing import Optional, List
 import csv
 import heapq
+import matplotlib.pyplot as plt
+import networkx as nx
+
 
 
 def build_graph(filename):
@@ -72,6 +75,44 @@ def plan_delivery(graph, depot: str, deliveries: List[str]) -> List[Tuple[str, O
         path = find_shortest_path(graph, depot, dest)
         plans.append((dest, path))
     return plans
+
+
+#  visualize Smart Delivery Route with importing 
+#  networkx & matplotlib.pyplot modules
+# =========================================================
+# =========================================================
+def visualize_routes(graph, plans):
+    G = nx.DiGraph()
+
+    # Add all nodes
+    for node in graph.get_nodes():
+        G.add_node(node)
+
+    # Add all edges with adjusted travel time as weight
+    for u in graph.get_nodes():
+        for edge in graph.get_neighbors(u):
+            G.add_edge(u, edge.to.label, weight=edge.adjusted_travel_time())
+
+    pos = nx.spring_layout(G, seed=42)
+
+    # Draw full graph in light gray
+    nx.draw(G, pos, with_labels=True, node_color='lightgray', edge_color='gray', node_size=800)
+
+    # Highlight selected delivery routes
+    route_edges = []
+    for _, path in plans:
+        if path and len(path) > 1:
+            route_edges += [(path[i], path[i+1]) for i in range(len(path)-1)]
+
+    nx.draw_networkx_edges(G, pos, edgelist=route_edges, edge_color='red', width=2)
+
+    labels = nx.get_edge_attributes(G, 'weight')
+    labels = {k: f"{v:.1f}" for k, v in labels.items()}
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+
+    plt.title("Smart Delivery Routes with Traffic-Aware Weights")
+    plt.tight_layout()
+    plt.show()
 
 
 def main():
@@ -139,6 +180,9 @@ def main():
             print(f"  Delivery to {dest}: {' -> '.join(path)}")
         else:
             print(f"  Delivery to {dest}: No Route")
+
+    # 4. call visualize_routes
+    visualize_routes(graph, plans)
 
 
 if __name__ == "__main__":
