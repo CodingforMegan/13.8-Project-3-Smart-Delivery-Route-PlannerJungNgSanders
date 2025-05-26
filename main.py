@@ -66,7 +66,7 @@ def find_shortest_path(graph, start: str, end: str) -> Optional[List[str]]:
     return list(reversed(path))
 
 
-def plan_delivery(graph, depot: str, deliveries: List[str]) -> List[tuple[str, Optional[List[str]]]]:
+def plan_delivery(graph, depot: str, deliveries: List[str]) -> List[Tuple[str, Optional[List[str]]]]:
     plans = []
     for dest in deliveries:
         path = find_shortest_path(graph, depot, dest)
@@ -75,20 +75,44 @@ def plan_delivery(graph, depot: str, deliveries: List[str]) -> List[tuple[str, O
 
 
 def main():
+    # Prepare sample input
+    graph_data = [
+        {'from_vertex': 'A', 'to_vertex': 'B', 'distance': 5, 'travel_time': 10, 'traffic': 'moderate'},
+        {'from_vertex': 'A', 'to_vertex': 'D', 'distance': 10, 'travel_time': 15, 'traffic': 'low'},
+        {'from_vertex': 'B', 'to_vertex': 'C', 'distance': 3, 'travel_time': 6, 'traffic': 'light'},
+        {'from_vertex': 'C', 'to_vertex': 'D', 'distance': 4, 'travel_time': 8, 'traffic': 'heavy'},
+        {'from_vertex': 'D', 'to_vertex': 'E', 'distance': 2, 'travel_time': 4, 'traffic': 'high'}
+    ]
+
+    input_file = 'sample_input.csv'
+    with open(input_file, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=['from_vertex', 'to_vertex', 'distance', 'travel_time', 'traffic'])
+        writer.writeheader()
+        writer.writerows(graph_data)
+   
     filename = "sample_input.csv"
     # Build graph and apply traffic
-    graph = build_graph(input_file)
+    graph = build_graph(filename)
+
     
     # Adjust graph edge weights for time-of-day traffic    
     time_of_day = "morning"
     adjust_for_traffic(graph, time_of_day)
+
 
     depot = "A"
     deliveries = ["B", "C", "D", "E", "X"]  # X is unreachable
 
     print(f"--- Smart Delivery Planner ---")
     print(f"Depot: {depot}")
-    print(f"Time of Day: {time_of_day}\n")
+    print(f"Time of Day: {time_of_day}\n")   
+
+    print("Edge Weights After Traffic Adjustment:")
+    for u in graph.get_nodes():
+        for edge in graph.get_neighbors(u):
+            print(f"  {u} → {edge.to.label} | Distance: {edge.distance} | "
+                  f"Adjusted Time: {edge.adjusted_travel_time():.2f} | "
+                  f"Efficiency (dist/time): {edge.current_weight():.2f}")
 
     # 1. Test is_route_possible()
     print("\\nChecking route feasibility:")
