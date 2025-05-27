@@ -89,7 +89,7 @@ self.edges: key: a tuple (start_label, end_label), value: corresponding edges ob
             new_edge = Edge(self.vertices[end_label], distance, travel_time, traffic, time_of_day)
             print(f"Adding edge from {start_label} to {end_label} with weight {new_edge.current_weight():.2f}")
             self.adjacency_list[start_label].append(new_edge)
-            self.edges[(start_label, end_label)] = new_edge.current_weight()
+            self.edges[(start_label, end_label)] = round(new_edge.current_weight(), 2)
         except ZeroDivisionError:
             print(f"Warning: Could not add edge from {start_label} to {end_label}. Division by zero.")
 
