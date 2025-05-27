@@ -52,11 +52,11 @@ class Edge:
 
 class Graph:
     def __init__(self):
-"""
-adjacency_list: key: vertex label, value: lists representing the edges originating from that vertex, for example, ('A': 'B', 'C', 'E')
-self.vertices: key: vertex label, value: corresponding Vertex object, for example, ('A': Vertex('A'))
-self.edges: key: a tuple (start_label, end_label), value: corresponding edges object, for example, (('A', 'E'): 15)
-"""
+        """
+        adjacency_list: key: vertex label, value: lists representing the edges originating from that vertex, for example, ('A': 'B', 'C', 'E')
+        self.vertices: key: vertex label, value: corresponding Vertex object, for example, ('A': Vertex('A'))
+        self.edges: key: a tuple (start_label, end_label), value: corresponding edges object, for example, (('A', 'E'): 15)
+        """
         self.adjacency_list = {}
         self.vertices = {}
         self.edges = {} 
