@@ -6,7 +6,7 @@
 #----------------------------------------------
 from graph_utils import Graph
 from traffic_simulation import adjust_for_traffic
-from typing import Optional, List
+from typing import Optional, List, Tuple
 import csv
 import heapq
 import matplotlib.pyplot as plt
@@ -144,14 +144,14 @@ def main():
                   f"Efficiency (dist/time): {edge.current_weight():.2f}")
 
     # 1. Test is_route_possible()
-    print("\\nChecking route feasibility:")
+    print("\nChecking route feasibility:")
     for dest in deliveries:
         possible = is_route_possible(graph, depot, dest)
         print(f"  {depot} → {dest}: {'Possible' if possible else 'No Route'}")
 
 
     # 2. Test find_shortest_path()
-    print("\\nFinding shortest paths:")
+    print("\nFinding shortest paths:")
     for dest in deliveries:
         path = find_shortest_path(graph, depot, dest)
         if path:
@@ -161,7 +161,7 @@ def main():
 
 
     # 3. Use plan_delivery() to generate batch delivery plan
-    print("\\nDelivery Plan Summary:")
+    print("\nDelivery Plan Summary:")
     plans = plan_delivery(graph, depot, deliveries)
     for dest, path in plans:
         if path:
