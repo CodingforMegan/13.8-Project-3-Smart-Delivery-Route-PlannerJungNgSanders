@@ -13,7 +13,7 @@ project_3/
 ├           plan_delivery(graph, start, end)
 ├           visualize_graph(graph, plans)
 ├── graph_utils.py: Vertex class, Graph class, Edge class
-├── traffic_simulation.py: adjust_for_traffic(graph, time_of_day)
+├── traffic_simulation.py: adjust_for_traffic(graph, time_of_day),get_traffic_multiplier(level)
 ├── design_doc.pdf
 ├── sample_input.csv
 ├── README.md
