@@ -78,13 +78,6 @@ No route possible from A to X.
   Delivery to E: A -> D -> E
   Delivery to X: No Route
 ```
-- An instance of Graphs.
-- Boolean value True/False for route check
-- A sequence of vertex objects that compose the shortest route between the depot and delivery destination, alongside with travel distance or time
-- Visualized delivery network with matplotlib 
-
-✅ A worked-out manual example using 4–6 city nodes
-
 
 ## 📄 Function Designs (refer to DESIGN.md)
 - ✅ Purpose: what the function accomplishes
