@@ -24,56 +24,69 @@ def build_graph(filename):
     return graph
 
 
-def is_route_possible(graph, start: str, end: str) -> bool:
+# check route for Smart Delivery Planner
+# ======================================
+def is_route_possible(graph, start_label, end_label):
     visited = set()
-    stack = [start]
+    stack = [start_label]
+
     while stack:
-        node = stack.pop()
-        if node == end:
+        current_label = stack.pop()
+        if current_label == end_label:
             return True
-        if node not in visited:
-            visited.add(node)
-            stack.extend(edge.to.label for edge in graph.get_neighbors(node))
+        if not current_label in visited:
+            visited.add(current_label)
+            stack.extend(edge.to.label for edge in graph.get_neighbors(current_label))
+
     return False
 
 
-def find_shortest_path(graph, start: str, end: str) -> Optional[List[str]]:
-    if start not in graph.get_nodes() or end not in graph.get_nodes():
-        return None
+# most cost-efficiency path for Smart Delivery Planner
+# =====================================================
+  def find_shortest_path(graph, start_label, end_label):
+      if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
+          print(f"Error: One or both vertices ({start_label}, {end_label}) do not exist in the graph.")
+          return None
 
-    dist = {node: float("inf") for node in graph.get_nodes()}
-    prev = {node: None for node in graph.get_nodes()}
-    dist[start] = 0
-    queue = [(0, start)]
+      distances = {node: float("inf") for node in graph.get_nodes()}
+      prev = {node: None for node in graph.get_nodes()}
+      distances[start_label] = 0
+      queue = [(0, start_label)]
 
-    while queue:
-        curr_dist, u = heapq.heappop(queue)
-        if u == end:
-            break
-        for edge in graph.get_neighbors(u):
-            v = edge.to.label
-            weight = edge.adjusted_travel_time()
-            if dist[u] + weight < dist[v]:
-                dist[v] = dist[u] + weight
-                prev[v] = u
-                heapq.heappush(queue, (dist[v], v))
+      while queue:
+          curr_dist, current_label = heapq.heappop(queue)
+          if current_label == end_label:
+              break
+          for edge in graph.get_neighbors(current_label):
+              neighbor_label = edge.to.label
+              weight = edge.adjusted_travel_time()
+              if distances[current_label] + weight < distances[neighbor_label]:
+                  distances[neighbor_label] = distances[current_label] + weight
+                  prev[neighbor_label] = current_label
+                  heapq.heappush(queue, (distances[neighbor_label], neighbor_label))
 
-    if dist[end] == float("inf"):
-        return None
+      if distances[end_label] == float("inf"):
+          print(f"No path found from {start_label} to {end_label}.")
+          return None
 
-    path = []
-    node = end
-    while node:
-        path.append(node)
-        node = prev[node]
-    return list(reversed(path))
-
+      path = []
+      current_label = end_label
+      while current_label:
+          path.append(current_label)
+          current_label = prev[current_label]
+      return list(reversed(path))
 
 def plan_delivery(graph, depot: str, deliveries: List[str]) -> List[Tuple[str, Optional[List[str]]]]:
     plans = []
     for dest in deliveries:
-        path = find_shortest_path(graph, depot, dest)
-        plans.append((dest, path))
+        # Check if a route is possible before finding the shortest path
+        if is_route_possible(graph, depot, dest):
+            path = find_shortest_path(graph, depot, dest)
+            plans.append((dest, path))
+        else:
+            # Handle cases where the route is not possible
+            print(f"No route possible from {depot} to {dest}.")
+            plans.append((dest, None)) # Append None to indicate no path
     return plans
 
 
