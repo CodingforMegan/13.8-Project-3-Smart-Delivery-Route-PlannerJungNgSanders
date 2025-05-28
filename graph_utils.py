@@ -69,7 +69,7 @@ class Graph:
         self.vertices[label] = new_vertex
         self.adjacency_list[label] = [] # Initialize adjacency list for the new vertex
 
-
+    # retrieve a single Vertex object
     def get_vertex(self, label):
         return self.vertices.get(label)
 
@@ -117,7 +117,7 @@ class Graph:
     def get_neighbors(self, vertex_label):
         return self.adjacency_list.get(vertex_label, [])
 
-    # Helper method to get all vertex labels
+    # Helper method to get all vertex labels (used in route check and dijkstra algorithm)
     def get_nodes(self):
         return list(self.vertices.keys())
 
