@@ -31,7 +31,45 @@ Furthermore, our planning system also can dynamically adapt delivery routes in r
 ✅ Input
 sample_input.csv
 
-✅ Expected output
+✅ Sample Output
+```
+--- Smart Delivery Planner ---
+Depot: A
+Time of Day: morning
+
+Edge Weights After Traffic Adjustment:
+  A → B | Distance: 5.0 | Adjusted Time: 10.00 | Efficiency (dist/time): 0.50
+  A → D | Distance: 10.0 | Adjusted Time: 11.25 | Efficiency (dist/time): 0.89
+  B → C | Distance: 3.0 | Adjusted Time: 4.80 | Efficiency (dist/time): 0.62
+  D → E | Distance: 2.0 | Adjusted Time: 5.00 | Efficiency (dist/time): 0.40
+  C → D | Distance: 4.0 | Adjusted Time: 12.00 | Efficiency (dist/time): 0.33
+
+
+Checking route feasibility:
+  A → B: Possible
+  A → C: Possible
+  A → D: Possible
+  A → E: Possible
+  A → X: No Route
+
+
+Finding shortest paths:
+  A → B: A -> B
+  A → C: A -> B -> C
+  A → D: A -> D
+  A → E: A -> D -> E
+Error: One or both vertices (A, X) do not exist in the graph.
+  A → X: No Path Found
+
+
+Delivery Plan Summary:
+No route possible from A to X.
+  Delivery to B: A -> B
+  Delivery to C: A -> B -> C
+  Delivery to D: A -> D
+  Delivery to E: A -> D -> E
+  Delivery to X: No Route
+```
 - An instance of Graphs.
 - Boolean value True/False for route check
 - A sequence of vertex objects that compose the shortest route between the depot and delivery destination, alongside with travel distance or time
