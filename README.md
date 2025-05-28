@@ -79,7 +79,8 @@ No route possible from A to X.
   Delivery to X: No Route
 ```
 
-## 📄 Function Designs (refer to DESIGN.md)
+## 📄 Function Designs 
+Refer to DESIGN.md
 - ✅ Purpose: what the function accomplishes
 - ✅ Parameter/Return Values: Data going in and out
 - ✅ Pseudocode: Step-by-step logic in English
