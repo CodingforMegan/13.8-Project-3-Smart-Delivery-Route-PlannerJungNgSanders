@@ -123,10 +123,38 @@ class Graph:
 
 
 if __name__ == "__main__":
-    graph_data = [
-        {'from_vertex': 'A', 'to_vertex': 'B', 'distance': 5, 'travel_time': 10, 'traffic': 'moderate'},
-        {'from_vertex': 'A', 'to_vertex': 'D', 'distance': 10, 'travel_time': 15, 'traffic': 'low'},
-        {'from_vertex': 'B', 'to_vertex': 'C', 'distance': 3, 'travel_time': 6, 'traffic': 'light'},
-        {'from_vertex': 'C', 'to_vertex': 'D', 'distance': 4, 'travel_time': 8, 'traffic': 'heavy'},
-        {'from_vertex': 'D', 'to_vertex': 'E', 'distance': 2, 'travel_time': 4, 'traffic': 'high'}
-    ]
+    graph = Graph()
+
+    graph.add_vertex("A")
+    graph.add_vertex("B")
+    graph.add_vertex("C")
+    graph.add_vertex("D")
+    graph.add_vertex("E")
+    graph.add_vertex("F")
+    graph.add_vertex("G")
+    graph.add_vertex("H")
+    graph.add_vertex("I")
+
+
+    for vertex in graph.vertices.values():
+        print(vertex)
+
+    # Iterate over dictionary items to get key-value pairs
+    for label, edges in graph.adjacency_list.items():
+        print(f"Vertex {label}: {edges}")
+
+    graph.add_directed_edge("A", "B", 5, 10, "moderate")
+    graph.add_directed_edge("A", "D", 10, 15, "low")
+    graph.add_directed_edge("B", "C", 3, 6, "light")
+    graph.add_directed_edge("C", "D", 4, 8, "heavy")
+    graph.add_directed_edge("D", "E", 2, 4, "high")
+
+    for vertex in graph.vertices.values():
+        print(vertex)
+
+    # Iterate over dictionary items to get key-value pairs
+    for label, edges in graph.adjacency_list.items():
+        print(f"Vertex {label}: {edges}")
+
+    for key, value in graph.edges.items():
+        print(f"{key}: {value}")
