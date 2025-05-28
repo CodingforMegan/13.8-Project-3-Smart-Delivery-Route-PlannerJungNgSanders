@@ -41,8 +41,8 @@ def is_route_possible(graph, start_label, end_label):
     return False
 
 
-# most cost-efficiency path for Smart Delivery Planner
-# =====================================================
+# planning most cost-efficiency path for Smart Delivery Planner
+# ============================================================
   def find_shortest_path(graph, start_label, end_label):
       if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
           print(f"Error: One or both vertices ({start_label}, {end_label}) do not exist in the graph.")
