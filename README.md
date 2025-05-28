@@ -30,6 +30,13 @@ Furthermore, our planning system also can dynamically adapt delivery routes in r
 
 ✅ Input
 sample_input.csv
+```
+A	B	5	10	moderate
+B	C	3	6	light
+C	D	4	8	heavy
+D	E	2	4	high
+A	D	10	15	low
+```
 
 ✅ Sample Output
 ```
