@@ -117,17 +117,22 @@ def visualize_routes(graph, plans):
     for _, path in plans:
         if path and len(path) > 1:
             route_edges += [(path[i], path[i+1]) for i in range(len(path)-1)]
-
+  
     nx.draw_networkx_edges(G, pos, edgelist=route_edges, edge_color='red', width=2)
 
-    labels = nx.get_edge_attributes(G, 'weight')
-    labels = {k: f"{v:.1f}" for k, v in labels.items()}
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+    # Change this part to use current_weight()
+    labels = nx.get_edge_attributes(G, 'weight') # This still gets the adjusted_travel_time added earlier
+    efficiency_labels = {}
+    for u in graph.get_nodes():
+        for edge in graph.get_neighbors(u):
+            efficiency_labels[(u, edge.to.label)] = edge.current_weight()
 
-    plt.title("Smart Delivery Routes with Traffic-Aware Weights")
+    efficiency_labels = {k: f"{v:.2f}" for k, v in efficiency_labels.items()} # Use .2f for efficiency
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=efficiency_labels)
+
+    plt.title("Smart Delivery Routes with Cost-Efficiency Weights") # Update title
     plt.tight_layout()
     plt.show()
-
 
 # =======================================
 # usage demo
