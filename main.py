@@ -76,17 +76,18 @@ def is_route_possible(graph, start_label, end_label):
           current_label = prev[current_label]
       return list(reversed(path))
 
-def plan_delivery(graph, depot: str, deliveries: List[str]) -> List[Tuple[str, Optional[List[str]]]]:
+
+def plan_delivery(graph, depot_label, delivery_labels):
     plans = []
-    for dest in deliveries:
+    for dest_label in delivery_labels:
         # Check if a route is possible before finding the shortest path
-        if is_route_possible(graph, depot, dest):
-            path = find_shortest_path(graph, depot, dest)
-            plans.append((dest, path))
+        if is_route_possible(graph, depot_label, dest_label):
+            path = find_shortest_path(graph, depot_label, dest_label)
+            plans.append((dest_label, path))
         else:
             # Handle cases where the route is not possible
-            print(f"No route possible from {depot} to {dest}.")
-            plans.append((dest, None)) # Append None to indicate no path
+            print(f"No route possible from {depot_label} to {dest_label}.")
+            plans.append((dest_label, None)) # Append None to indicate no path
     return plans
 
 
