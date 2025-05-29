@@ -19,7 +19,7 @@ class Vertex:
     label : Any
     lat : int
     lon : int
-    neighbors : set
+    neighbors : dictionary that maps a vertex to an edge
 
     Methods
     -------
@@ -53,7 +53,7 @@ class Vertex:
 
     def __lt__(self, other):
         """
-        Returns a bool comparing the label of two vertices.
+        Returns a bool that results from a lexicographic comparison of the label of two vertices.
 
         Parameters
         ----------
@@ -92,7 +92,7 @@ class Edge:
     adjusted_travel_time()
         Returns a float by calling the get_traffic_multiplier method from the traffic_simulation class
     current_weight()
-        Returns an int that is calculated by distance / adjusted_time
+        Returns a float that is calculated by distance / adjusted_time
     __repr__()
         Returns a string representation of an edge's label, distance, base_travel_time, traffic, and time_of_day     
     """    
@@ -146,7 +146,7 @@ class Graph:
     Attributes
     ----------
     adjacency_list : dictionary where the key is the vertex label and value is a list representing the neighbors of that vertex
-    vertices : ditionary where the key is the vertex label and value is the corresponding vertex object
+    vertices : dictionary where the key is the vertex label and value is the corresponding vertex object
     edges : dictionary where the key is a tuple (stat_label, end_label) and value is the corresponding edge object
     
     Methods
@@ -183,7 +183,7 @@ class Graph:
 
     def add_vertex(self, label, lat=None, lon=None):
         """
-        Addes a vertex to the Graph instance.
+        Adds a vertex to the Graph instance.
 
         Parameters
         ----------
@@ -212,7 +212,7 @@ class Graph:
         
         Returns
         -------
-        str 
+        Vertex instance 
         """          
         return self.vertices.get(label)
 
@@ -226,7 +226,7 @@ class Graph:
         ----------
         start_label : str of the start vertex
         end_label :  str of the end vertex
-        distance = float representing the distance, which is the weight of the edge
+        distance : float representing the distance, which is the weight of the edge
         traffic : str
         time_of_day: str
         
@@ -261,7 +261,7 @@ class Graph:
         ----------
         start_label : str of the start vertex
         end_label :  str of the end vertex
-        distance = float representing the distance, which is the weight of the edge
+        distance : float representing the distance, which is the weight of the edge
         traffic : str
         time_of_day: str        
         
@@ -275,7 +275,7 @@ class Graph:
 
     def get_edge(self, start_label, end_label):
         """
-        Returns an edge that has the corresponding start and end labels.
+        Returns an edge's weight that has the corresponding start and end labels.
 
         Parameters
         ----------
@@ -284,7 +284,7 @@ class Graph:
          
         Returns
         -------
-        Edge instance
+        float
         """        
         return self.edges.get((start_label, end_label))
 
