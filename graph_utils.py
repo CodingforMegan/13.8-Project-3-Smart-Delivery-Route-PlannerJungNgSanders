@@ -11,6 +11,25 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 class Vertex:
+    """
+    Implements a vertex in a graph.
+
+    Attributes
+    ----------
+    label : Any
+    lat : int
+    lon : int
+    neighbors : set
+
+    Methods
+    -------
+    add_neighbor(neigbor, edge)
+        Connects a neighbor vertex to a vertex object.
+    __lt__()
+        Returns a bool comparing the label of a vertex and another vertex.
+    __repr__()
+        Returns a string representation of a vertex's label, latitude, and longitude.        
+    """
     def __init__(self, label, lat=None, lon=None):
         self.label = label
         self.lat = lat
