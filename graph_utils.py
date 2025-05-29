@@ -60,7 +60,7 @@ class Edge:
     
     Methods
     -------
-    adjusted_travel_time(neigbor, edge)
+    adjusted_travel_time()
         Returns a float by calling the get_traffic_multiplier method from the traffic_simulation class
     current_weight()
         Returns an int that is calculated by distance / adjusted_time
@@ -90,6 +90,36 @@ class Edge:
 
 
 class Graph:
+    """
+    Implements a graph using Vertex and Edge instances.
+
+    Attributes
+    ----------
+    adjacency_list : dictionary where the key is the vertex label and value is a list representing the neighbors of that vertex
+    vertices : ditionary where the key is the vertex label and value is the corresponding vertex object
+    edges : dictionary where the key is a tuple (stat_label, end_label) and value is the corresponding edge object
+    
+    Methods
+    -------
+    add_vertex(label, lat=None, lon=None)
+        Adds a unique vertex with a label, lat, and lon.
+    get_vertex(label)
+        Returns a single vertex object based on the label.
+    add_directed_edge(start_label, end_label, distance, travel_time, traffic=None, time_of_day=None)
+        Adds a directed edge from the start_label to _end label with the weight calculated by distance, travel_time, traffic,
+        and time_of_day.     
+    add_undirected_edge(start_label, end_label, distance, travel_time, traffic=None, time_of_day=None)
+        Adds an undirected edge by adding two directed edges, one from the start_label to the end_label and one from the 
+        end_label to start_label.
+    get_edge(start_label, end_label)
+        Returns an edge with the corresponding starting and ending labels.  
+    update_edge(start_label, end_label, key, value)
+        Updates an attribute of an edge.   
+    get_neighbors(vertex_label)
+        Helper method that returns all the neighbors of a vertex.           
+    get_nodes()
+        Helper method that returns a list of all the vertex labels.           
+    """
     def __init__(self):
         """
         adjacency_list: key: vertex label, value: lists representing the edges originating from that vertex, for example, ('A': 'B', 'C', 'E')
