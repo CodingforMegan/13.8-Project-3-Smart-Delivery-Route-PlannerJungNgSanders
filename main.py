@@ -15,6 +15,18 @@ import networkx as nx
 
 
 def build_graph(filename):
+    """
+    Builds a Graph instance using the data from the file that is passed in, which contains data in the format in each line:
+    start label, end label, travel distance, travel time, and traffic level.
+
+    Parameters
+    ----------
+    filename : str which is the name of the file
+    
+    Returns
+    -------
+    Graph instance
+    """ 
     graph = Graph()
     with open(filename) as f:
         next(f)  # Skip header
@@ -27,6 +39,19 @@ def build_graph(filename):
 # check route for Smart Delivery Planner
 # ======================================
 def is_route_possible(graph, start_label, end_label):
+    """
+    Verifies if there exists a route from a starting location/vertex to an end location/vertex.
+
+    Parameters
+    ----------
+    graph : Graph instance
+    start_label: str which is the starting or "from" vertex
+    end_label: str which is the ending or "to" vertex
+    
+    Returns
+    -------
+    bool
+    """     
     visited = set()
     stack = [start_label]
 
@@ -44,6 +69,20 @@ def is_route_possible(graph, start_label, end_label):
 # planning most cost-efficiency path for Smart Delivery Planner
 # ============================================================
   def find_shortest_path(graph, start_label, end_label):
+    """
+    Finds the shortest path between two given vertices provided that the two vertices exist in the graph, by implementing
+    Djikstra's shortest path algorithm.
+
+    Parameters
+    ----------
+    graph : Graph instance
+    start_label: str which is the starting or "from" vertex
+    end_label: str which is the ending or "to" vertex
+    
+    Returns
+    -------
+    list containing the labels of the vertices that represent the shortest path from the starting and ending vertices.
+    """       
       if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
           print(f"Error: One or both vertices ({start_label}, {end_label}) do not exist in the graph.")
           return None
@@ -78,6 +117,20 @@ def is_route_possible(graph, start_label, end_label):
 
 
 def plan_delivery(graph, depot_label, delivery_labels):
+    """
+    Finds the shortest path that contains all vertices/locations from a starting vertex/depot and a list of delivery locations that are to be visited.
+
+    Parameters
+    ----------
+    graph : Graph instance
+    depot_label: str which is the starting or "from" vertex
+    delivery_labels: list which contains the labels of all the vertices that are to be visited
+    
+    Returns
+    -------
+    list of tuples containing the labels of the vertices that represent the shortest path that includes the starting vertex/depot and all the vertices/delivery locations that
+    are to be visited.
+    """       
     plans = []
     for dest_label in delivery_labels:
         # Check if a route is possible before finding the shortest path
@@ -96,6 +149,19 @@ def plan_delivery(graph, depot_label, delivery_labels):
 # =========================================================
 # =========================================================
 def visualize_routes(graph, plans):
+    """
+    Visualizes the Graph instance's edges and vertices and highlights the selected delivery routes of the Smart Delivery Route program.
+
+    Parameters
+    ----------
+    graph : Graph instance
+    plans: list of tuples containing the labels of the vertices that represent the shortest path that includes the starting vertex/depot and all the vertices/delivery locations that
+    are to be visited. 
+    
+    Returns
+    -------
+    None. This function visualizes a plot from matplotlib to visualize the graph and highlights the selected delivery routes and includes labels for the edge weights, which represent travel times.
+    """     
     G = nx.DiGraph()
 
     # Add all nodes
