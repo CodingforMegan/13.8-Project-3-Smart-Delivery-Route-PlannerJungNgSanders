@@ -124,7 +124,7 @@ def plan_delivery(graph, depot_label, delivery_labels):
     ----------
     graph : Graph instance
     depot_label: str which is the starting or "from" vertex
-    delivery_labels: list which contains the labels of all the vertices that are to be visited
+    delivery_labels: list of str which contains the labels of all the vertices that are to be visited
     
     Returns
     -------
