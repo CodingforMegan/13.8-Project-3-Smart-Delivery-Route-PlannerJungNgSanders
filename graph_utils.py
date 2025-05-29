@@ -47,6 +47,26 @@ class Vertex:
 
 
 class Edge:
+    """
+    Implements an edge in a graph.
+
+    Attributes
+    ----------
+    to : Vertex
+    distance : int
+    base_travel_time : int
+    traffic : str
+    time_of_day : 
+    
+    Methods
+    -------
+    adjusted_travel_time(neigbor, edge)
+        Returns a float by calling the get_traffic_multiplier method from the traffic_simulation class
+    current_weight()
+        Returns an int that is calculated by distance / adjusted_time
+    __repr__()
+        Returns a string representation of an edge's label, distance, base_travel_time, traffic, and time_of_day     
+    """    
     def __init__(self, to, distance, travel_time, traffic=None, time_of_day=None):
         self.to = to
         self.distance = distance
