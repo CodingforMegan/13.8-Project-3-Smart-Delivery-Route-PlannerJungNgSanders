@@ -68,7 +68,7 @@ def is_route_possible(graph, start_label, end_label):
 def find_shortest_path(graph, start_label, end_label):
     """
     Finds the shortest path between two given vertices provided that the two vertices exist in the graph, by implementing
-    Djikstra's shortest path algorithm.
+    Dijkstra's shortest path algorithm.
 
     Parameters
     ----------
@@ -78,8 +78,9 @@ def find_shortest_path(graph, start_label, end_label):
     
     Returns
     -------
-    Path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices.
-    Final distance list: a list of vertices that make up the shortest path from the start_lable to end_label vertices.
+    Tuple containing the shortest path, which is a list of strings and the distance, which is a float.
+    path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices.
+    dist: a float that represents the distance of the shortest path
     """       
     if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
         return None
