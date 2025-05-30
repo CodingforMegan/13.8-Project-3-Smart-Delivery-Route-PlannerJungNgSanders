@@ -39,7 +39,7 @@ D	E	2	4	high
 A	D	10	15	low
 ```
 ```
-![Alt text](sample_input.png)
+![Sample Image](sample_input.png)
 ```
 ✅ Traffic Adjustement Criteria
 ```
