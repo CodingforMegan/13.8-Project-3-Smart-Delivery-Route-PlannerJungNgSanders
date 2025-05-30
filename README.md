@@ -38,7 +38,7 @@ C	D	4	8	heavy
 D	E	2	4	high
 A	D	10	15	low
 ```
-![Sample Input](sample_input.png)
+
 
 ✅ Traffic Adjustement Criteria
 ```
