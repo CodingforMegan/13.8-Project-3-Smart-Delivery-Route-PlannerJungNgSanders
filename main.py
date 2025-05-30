@@ -6,8 +6,6 @@
 #----------------------------------------------
 from graph_utils import Graph
 from traffic_simulation import adjust_for_traffic
-from typing import Optional, List, Tuple
-import csv
 import heapq
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -67,7 +65,7 @@ def is_route_possible(graph, start_label, end_label):
 
 # planning most cost-efficiency path for Smart Delivery Planner
 # ============================================================
-  def find_shortest_path(graph, start_label, end_label):
+def find_shortest_path(graph, start_label, end_label):
     """
     Finds the shortest path between two given vertices provided that the two vertices exist in the graph, by implementing
     Djikstra's shortest path algorithm.
@@ -83,12 +81,12 @@ def is_route_possible(graph, start_label, end_label):
     Path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices.
     Final distance list: a list of shortest distance from vertex of start_lable to vertex of end_label
     """       
-    if start not in graph.get_nodes() or end not in graph.get_nodes():
+    if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
         return None
     dist = {vertex: float("inf") for vertex in graph.get_nodes()}
     prev = {vertex: None for vertex in graph.get_nodes()}
-    dist[start] = 0
-    queue = [(0, start)]
+    dist[start_label] = 0
+    queue = [(0, start_label)]
 
     #print(f"Debug: Starting shortest path from {start} to {end}")
     #print(f"Debug: Inital dist: {dist}")
@@ -97,7 +95,7 @@ def is_route_possible(graph, start_label, end_label):
     while queue:
         curr_dist, curr_vertex = heapq.heappop(queue)
         #print(f"Debug: Processing vertex: {curr_vertex} with current distance: {curr_dist}")
-        if curr_vertex == end:
+        if curr_vertex == end_label:
             break
         for edge in graph.get_neighbors(curr_vertex):
             to_vertex = edge.to.label
@@ -111,16 +109,16 @@ def is_route_possible(graph, start_label, end_label):
 
     #print(f"Debug: Final dist: {dist}")
     #print(f"Debug: Final prev: {prev}")
-    if dist[end] == float("inf"):
+    if dist[end_label] == float("inf"):
         #print(f"  Debug: No path found from {start} to {end}")
         return None, float("inf") # Return None for path and "inf" for distance if no path
     else:
         path = []
-        curr_vertex = end
+        curr_vertex = end_label
         while curr_vertex:
             path.append(curr_vertex)
             curr_vertex = prev[curr_vertex]
-        return list(reversed(path)), dist[end] # Return the path and the final distance
+        return list(reversed(path)), dist[end_label] # Return the path and the final distance
 
 
 def plan_delivery(graph, depot_label, delivery_labels):
