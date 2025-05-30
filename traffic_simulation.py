@@ -4,18 +4,19 @@
 
 #Course: Spr25_CS_034 CRN 39575
 #----------------------------------------------
-    """
-    Includes functions to update the edges of the graph. Since the edges between vertices in our graph, we included two functions to 
-    weigh the edges.
+"""
+Includes functions to update the edges of the graph. Since the edges between vertices in our graph, we included two functions to
+weigh the edges.
 
-    Methods
-    -------
-    get_traffic_multiplier(level)
-        Maps the traffic level to a multipler to weigh an edge in the graph.
-    adjust_for_traffic(graph, time_of_day)
-        Updates the weights of all edges in the graph based on the time of day.       
-    """
-def get_traffic_multiplier(level):
+Methods
+-------
+get_traffic_multiplier(level)
+    Maps the traffic level to a multiplier to weigh an edge in the graph.
+adjust_for_traffic(graph, time_of_day)
+    Updates the weights of all edges in the graph based on the time of day.
+"""
+
+def get_traffic_multiplier(level: str) -> float:
     """
     Map traffic level to a multiplier used for travel time adjustment.
     
@@ -36,7 +37,7 @@ def get_traffic_multiplier(level):
     }.get((level or "moderate").lower(), 1.0)
 
 
-def adjust_for_traffic(graph, time_of_day):
+def adjust_for_traffic(graph, time_of_day: str) -> None:
     """
     Adjust traffic levels on all edges in the graph based on the time of day.
     This function updates the 'traffic' attribute on each edge.
