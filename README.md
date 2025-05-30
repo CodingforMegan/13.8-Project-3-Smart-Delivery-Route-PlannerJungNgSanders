@@ -39,6 +39,25 @@ D	E	2	4	high
 A	D	10	15	low
 ```
 
+✅ Traffic Adjustement Criteria
+```
+Traffic_level{
+        "heavy": 1.5,
+        "high": 1.25,
+        "moderate": 1.0,
+        "light": 0.8,
+        "low": 0.75
+    }.get((level or "moderate").lower(), 1.0)
+
+time_to_traffic = {
+        "morning": "heavy",
+        "late_morning": "high",
+        "afternoon": "moderate",
+        "evening": "light",
+        "night": "low"
+    }
+```
+
 ✅ Sample Output
 
 time_of_Day = "morning"
