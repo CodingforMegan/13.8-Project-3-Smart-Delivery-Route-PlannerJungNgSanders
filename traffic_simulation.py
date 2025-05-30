@@ -27,7 +27,14 @@ def get_traffic_multiplier(level: str) -> float:
     Returns
     -------
     float that is mapped to the traffic level
-    """    
+
+    Raises
+    ------
+    ValueError
+        If the value provided is not a string
+    """
+    if not isinstance(level, str):
+        raise ValueError("Traffic level must be a string")
     return {
         "heavy": 1.5,
         "high": 1.25,
