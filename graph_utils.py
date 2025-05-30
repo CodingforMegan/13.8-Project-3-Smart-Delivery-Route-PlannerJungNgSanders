@@ -4,11 +4,9 @@
 
 #Course: Spr25_CS_034 CRN 39575
 #----------------------------------------------
+from __future__ import annotations
 from traffic_simulation import get_traffic_multiplier
-from typing import List, Tuple, Optional
-import heapq
-import matplotlib.pyplot as plt
-import networkx as nx
+
 
 class Vertex:
     """
@@ -23,7 +21,7 @@ class Vertex:
 
     Methods
     -------
-    add_neighbor(neigbor, edge)
+    add_neighbor(neighbor, edge)
         Connects a neighbor vertex to a vertex object.
     __lt__()
         Returns a bool comparing the label of a vertex and another vertex.
@@ -36,7 +34,7 @@ class Vertex:
         self.lon = lon
         self.neighbors = {} # {neighbor_vertex: edge}
 
-    def add_neighbor(self, neighbor, edge):
+    def add_neighbor(self, neighbor: Vertex, edge: Edge) -> None:
         """
         Connects a neighbor vertex to a vertex object.
 
@@ -51,7 +49,7 @@ class Vertex:
         """
         self.neighbors[neighbor] = edge
 
-    def __lt__(self, other):
+    def __lt__(self, other: Vertex) -> bool:
         """
         Returns a bool that results from a lexicographic comparison of the label of two vertices.
 
@@ -62,17 +60,17 @@ class Vertex:
         Returns
         -------
         bool
-        """        
+        """
         return self.label < other.label
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Returns a string representation of a vertex instance's label, lat, and lon.
         
         Returns
         -------
         str
-        """        
+        """
         return f"Vertex({self.label}, lat={self.lat}, lon={self.lon})"
 
 class Edge:
@@ -103,7 +101,7 @@ class Edge:
         self.traffic = traffic
         self.time_of_day = time_of_day
 
-    def adjusted_travel_time(self):
+    def adjusted_travel_time(self) -> float:
         """
         Returns a float representing the travel time by calling the get_traffic_multiplier from the traffic_simulation class, which uses a map.
         
@@ -114,28 +112,27 @@ class Edge:
         multiplier = get_traffic_multiplier(self.traffic)
         return self.base_travel_time * multiplier
 
-    def current_weight(self):
+    def current_weight(self) -> float:
         """
         Returns the dynamic weight of an edge by using the formula distance / adjusted travel time.
         
         Returns
         -------
         float
-        """        
-        """Return a dynamic weight: distance / adjusted travel time"""
+        """
         adjusted_time = self.adjusted_travel_time()
         if adjusted_time == 0:
             return float("inf")
         return self.distance / adjusted_time  # higher = more efficient
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Returns a string representation of an edge's to vertex, distance, base time, and traffic level.
         
         Returns
         -------
         str
-        """          
+        """
         return f"---> {self.to.label} (distance={self.distance}, base_time={self.base_travel_time}, traffic={self.traffic})"
 
 
@@ -181,20 +178,27 @@ class Graph:
         self.edges = {} 
     
 
-    def add_vertex(self, label, lat=None, lon=None):
+    def add_vertex(self, label: str, lat: int=None, lon: int=None) -> None:
         """
         Adds a vertex to the Graph instance.
 
         Parameters
         ----------
         label : str
-        lat : the latitude of the vertex. which is a location in the graph
-        lon : the longitude of the vertex, which is a location in the graph
+        lat : int
+            the latitude of the vertex, which is a location in the graph
+        lon : int
+            the longitude of the vertex, which is a location in the graph
         
         Returns
         -------
-        bool
-        """           
+        None
+
+        Raises
+        ------
+        ValueError
+            If a vertex with the given label already exists.
+        """
         if label in self.vertices:
             raise ValueError(f"Vertex with label {label} already exists.")
         new_vertex = Vertex(label, lat, lon)
@@ -202,7 +206,7 @@ class Graph:
         self.adjacency_list[label] = [] # Initialize adjacency list for the new vertex
 
     # retrieve a single Vertex object
-    def get_vertex(self, label):
+    def get_vertex(self, label: str) -> Vertex:
         """
         Returns a Vertex instance from a Graph instance.
 
@@ -217,7 +221,15 @@ class Graph:
         return self.vertices.get(label)
 
 
-    def add_directed_edge(self, start_label, end_label, distance, travel_time, traffic=None, time_of_day=None):
+    def add_directed_edge(
+            self,
+            start_label: str,
+            end_label: str,
+            distance: float,
+            travel_time: int,
+            traffic: str=None,
+            time_of_day: str=None
+        ) -> None:
         """
         Adds a directed edge to the Graph instance. If the start or end label vertices do not exist in the graph, they are created. Ensures that both vertices
         exist and have an edge that is valid.
@@ -227,13 +239,18 @@ class Graph:
         start_label : str of the start vertex
         end_label :  str of the end vertex
         distance : float representing the distance, which is the weight of the edge
+        travel_time : int
         traffic : str
         time_of_day: str
         
         Returns
         -------
         None
-        """         
+
+        Raises
+        ------
+        ZeroDivisionError
+        """
         if start_label not in self.vertices:
             # Instantiate Vertex class with start_label
             print(f"Vertex {start_label} does not exist. Adding it now.")
@@ -253,7 +270,15 @@ class Graph:
             print(f"Warning: Could not add edge from {start_label} to {end_label}. Division by zero.")
 
 
-    def add_undirected_edge(self, start_label, end_label, distance, travel_time, traffic=None, time_of_day=None):
+    def add_undirected_edge(
+            self,
+            start_label: str,
+            end_label: str,
+            distance: float,
+            travel_time: int,
+            traffic: str=None,
+            time_of_day: str=None
+        ) -> None:
         """
         Adds an undirected edge to the Graph instance by adding two undirected edges, one from the start label to the end label and one from the end label to the start label.
 
@@ -262,18 +287,19 @@ class Graph:
         start_label : str of the start vertex
         end_label :  str of the end vertex
         distance : float representing the distance, which is the weight of the edge
+        travel_time : int
         traffic : str
-        time_of_day: str        
+        time_of_day: str
         
         Returns
         -------
         None
-        """           
+        """
         self.add_directed_edge(start_label, end_label, distance, travel_time, traffic, time_of_day)
         self.add_directed_edge(end_label, start_label, distance, travel_time, traffic, time_of_day)
 
 
-    def get_edge(self, start_label, end_label):
+    def get_edge(self, start_label: str, end_label: str) -> float:
         """
         Returns an edge's weight that has the corresponding start and end labels.
 
@@ -285,11 +311,11 @@ class Graph:
         Returns
         -------
         float
-        """        
+        """
         return self.edges.get((start_label, end_label))
 
 
-    def update_edge(self, start_label, end_label, key, value):
+    def update_edge(self, start_label: str, end_label: str, key: str, value: float) -> None:
         """
         Assigns a new weight to an existing edge.
 
@@ -314,7 +340,7 @@ class Graph:
             print(f"Warning: Edge from {start_label} to {end_label} not found.")
 
     # Helper method to get neighbors (edges originating from a vertex)
-    def get_neighbors(self, vertex_label):
+    def get_neighbors(self, vertex_label: str) -> list:
         """
         Returns the neighbors, which are the vertices connected to a vertex, in the form of an adjacency list.
 
@@ -329,14 +355,14 @@ class Graph:
         return self.adjacency_list.get(vertex_label, [])
 
     # Helper method to get all vertex labels (used in route check and dijkstra algorithm)
-    def get_nodes(self):
+    def get_nodes(self) -> list[str]:
         """
         Returns the labels of all the existing vertices in the graph.
         
         Returns
         -------
         list
-        """         
+        """
         return list(self.vertices.keys())
 
 
