@@ -1,3 +1,4 @@
+from_vertex,to_vertex,distance,travel_time,traffic
 A,B,5,10,moderate
 B,C,3,6,light
 C,D,4,8,heavy
