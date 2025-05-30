@@ -79,7 +79,7 @@ def find_shortest_path(graph, start_label, end_label):
     Returns
     -------
     Path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices.
-    Final distance list: a list of shortest distance from vertex of start_lable to vertex of end_label
+    Final distance list: a list of vertices that make up the shortest path from the start_lable to end_label vertices.
     """       
     if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
         return None
