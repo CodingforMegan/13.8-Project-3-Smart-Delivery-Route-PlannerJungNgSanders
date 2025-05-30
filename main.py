@@ -174,18 +174,26 @@ def visualize_routes(graph, plans):
     G = nx.DiGraph()
 
     # Add all nodes
-    for node in graph.get_nodes():
-        G.add_node(node)
+    for label in graph.get_nodes():
+        G.add_node(label)
 
     # Add all edges with adjusted travel time as weight
     for u in graph.get_nodes():
         for edge in graph.get_neighbors(u):
             G.add_edge(u, edge.to.label, weight=edge.adjusted_travel_time())
-
-    pos = nx.spring_layout(G, seed=42)
+   
+    pos = nx.spring_layout(G, seed=42)  # consistent layout
 
     # Draw full graph in light gray
     nx.draw(G, pos, with_labels=True, node_color='lightgray', edge_color='gray', node_size=800)
+
+    # Highlight selected delivery routes
+    route_edges = []
+    for _, path in plans:
+        if path and len(path) > 1:
+            route_edges += [(path[i], path[i+1]) for i in range(len(path)-1)]
+  
+    nx.draw_networkx_edges(G, pos, edgelist=route_edges, edge_color='red', width=2)
 
     # Highlight selected delivery routes
     route_edges = []
