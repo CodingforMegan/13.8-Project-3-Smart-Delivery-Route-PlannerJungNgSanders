@@ -131,9 +131,12 @@ def plan_delivery(graph, depot_label, delivery_labels):
     depot_label: str which is the starting or "from" vertex
     delivery_labels: list of str which contains the labels of all the vertices that are to be visited
     
-    ???Returns
+    Returns
     -------
-
+    A tuple of plans and total_distance.
+    -plans, a list of tuples in the form (from_label, to_label, path, distance)
+    -total_distance, a float which represents the total distance traveled for all delivery locations rounded to
+    two decimal places
     """       
     plans = []
     total_distance = 0
