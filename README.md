@@ -40,6 +40,8 @@ A	D	10	15	low
 ```
 
 ✅ Sample Output
+
+time_of_Day = "morning"
 ```
 Welcome to Smart Delivery Route Planner!
 
@@ -67,7 +69,34 @@ Delivery plan:
   3. C → D (12.00 ML)
 Total cost-effective distance: 36.00 ML
 ```
+time_of_day = "night"
+```
+Welcome to Smart Delivery Route Planner!
 
+Enter the time of day: Night
+
+Enter depot location: A
+Enter delivery stops (comma separated): B,C,D
+
+Checking delivery feasibility:
+  A → B: Route exists.
+  A → C: Route exists.
+  A → D: Route exists.
+
+Finding the shortest Route...
+
+  A → B: A -> B | 7.50 ML
+
+  A → C: A -> B -> C | 12.00 ML
+
+  A → D: A -> D | 11.25 ML
+
+Delivery plan:
+  1. A → B (7.50 ML)
+  2. B → C (4.50 ML)
+  3. C → D (6.00 ML)
+Total cost-effective distance: 18.00 ML
+```
 ## 📄 Function Designs 
 Refer to DESIGN.md
 - ✅ Purpose: what the function accomplishes
