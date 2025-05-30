@@ -13,7 +13,6 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 
-
 def build_graph(filename):
     """
     Builds a Graph instance using the data from the file that is passed in, which contains data in the format in each line:
