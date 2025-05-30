@@ -39,7 +39,7 @@ D	E	2	4	high
 A	D	10	15	low
 ```
 ```
-
+https://github.com/lolMichaelJung1/13.8-Project-3-Smart-Delivery-Route-PlannerJungNgSanders/blob/main/sample_input.png?raw=true
 ```
 ✅ Traffic Adjustement Criteria
 ```
