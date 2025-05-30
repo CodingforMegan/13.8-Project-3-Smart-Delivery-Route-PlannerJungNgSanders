@@ -38,6 +38,10 @@ C	D	4	8	heavy
 D	E	2	4	high
 A	D	10	15	low
 ```
+```
+![image](https://github.com/user-attachments/assets/b7b9faba-6717-4402-83e6-3fde60e9ef0f)
+
+```
 
 ✅ Traffic Adjustement Criteria
 ```
