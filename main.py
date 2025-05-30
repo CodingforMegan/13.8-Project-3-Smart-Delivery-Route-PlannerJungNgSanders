@@ -81,39 +81,47 @@ def is_route_possible(graph, start_label, end_label):
     
     Returns
     -------
-    list containing the labels of the vertices that represent the shortest path from the starting and ending vertices.
+    Path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices.
+    Final distance list: a list of shortest distance from vertex of start_lable to vertex of end_label
     """       
-      if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
-          print(f"Error: One or both vertices ({start_label}, {end_label}) do not exist in the graph.")
-          return None
+    if start not in graph.get_nodes() or end not in graph.get_nodes():
+        return None
+    dist = {vertex: float("inf") for vertex in graph.get_nodes()}
+    prev = {vertex: None for vertex in graph.get_nodes()}
+    dist[start] = 0
+    queue = [(0, start)]
 
-      distances = {node: float("inf") for node in graph.get_nodes()}
-      prev = {node: None for node in graph.get_nodes()}
-      distances[start_label] = 0
-      queue = [(0, start_label)]
+    #print(f"Debug: Starting shortest path from {start} to {end}")
+    #print(f"Debug: Inital dist: {dist}")
+    #print(f"Debug: Initial queue: {queue}")
 
-      while queue:
-          curr_dist, current_label = heapq.heappop(queue)
-          if current_label == end_label:
-              break
-          for edge in graph.get_neighbors(current_label):
-              neighbor_label = edge.to.label
-              weight = edge.adjusted_travel_time()
-              if distances[current_label] + weight < distances[neighbor_label]:
-                  distances[neighbor_label] = distances[current_label] + weight
-                  prev[neighbor_label] = current_label
-                  heapq.heappush(queue, (distances[neighbor_label], neighbor_label))
+    while queue:
+        curr_dist, curr_vertex = heapq.heappop(queue)
+        #print(f"Debug: Processing vertex: {curr_vertex} with current distance: {curr_dist}")
+        if curr_vertex == end:
+            break
+        for edge in graph.get_neighbors(curr_vertex):
+            to_vertex = edge.to.label
+            curr_weight = edge.adjusted_travel_time()
+            #print(f"  Debug: Considering edge to {to_vertex} with weight: {curr_weight}")
+            if dist[curr_vertex] + curr_weight < dist[to_vertex]:
+                dist[to_vertex] = dist[curr_vertex] + curr_weight
+                prev[to_vertex] = curr_vertex
+                heapq.heappush(queue, (dist[to_vertex], to_vertex))
+                #print(f"  Debug: Updated distance to {to_vertex}: {dist[to_vertex]}")
 
-      if distances[end_label] == float("inf"):
-          print(f"No path found from {start_label} to {end_label}.")
-          return None
-
-      path = []
-      current_label = end_label
-      while current_label:
-          path.append(current_label)
-          current_label = prev[current_label]
-      return list(reversed(path))
+    #print(f"Debug: Final dist: {dist}")
+    #print(f"Debug: Final prev: {prev}")
+    if dist[end] == float("inf"):
+        #print(f"  Debug: No path found from {start} to {end}")
+        return None, float("inf") # Return None for path and "inf" for distance if no path
+    else:
+        path = []
+        curr_vertex = end
+        while curr_vertex:
+            path.append(curr_vertex)
+            curr_vertex = prev[curr_vertex]
+        return list(reversed(path)), dist[end] # Return the path and the final distance
 
 
 def plan_delivery(graph, depot_label, delivery_labels):
@@ -126,22 +134,24 @@ def plan_delivery(graph, depot_label, delivery_labels):
     depot_label: str which is the starting or "from" vertex
     delivery_labels: list of str which contains the labels of all the vertices that are to be visited
     
-    Returns
+    ???Returns
     -------
-    list of tuples containing the labels of the vertices that represent the shortest path that includes the starting vertex/depot and all the vertices/delivery locations that
-    are to be visited.
+
     """       
     plans = []
+    total_distance = 0
+    curr_label = depot_label
     for dest_label in delivery_labels:
         # Check if a route is possible before finding the shortest path
-        if is_route_possible(graph, depot_label, dest_label):
-            path = find_shortest_path(graph, depot_label, dest_label)
-            plans.append((dest_label, path))
+        if not is_route_possible(graph, curr_label, dest_label):
+            plans.append((curr_label, dest_label, None, 0))
         else:
             # Handle cases where the route is not possible
-            print(f"No route possible from {depot_label} to {dest_label}.")
-            plans.append((dest_label, None)) # Append None to indicate no path
-    return plans
+            path, distance = find_shortest_path(graph, curr_label, dest_label)
+            plans.append((curr_label, dest_label, path, distance))
+            total_distance += distance
+        curr_label = dest_label
+    return plans, round(total_distance, 2)
 
 
 #  visualize Smart Delivery Route with importing 
@@ -208,52 +218,43 @@ def main():
     filename = "sample_input.csv"
     graph = build_graph(filename)
 
-    
-    # Adjust graph edge weights for time-of-day traffic    
-    time_of_day = "morning"
+    print("\nWelcome to Smart Delivery Route Planner!")
+    # Adjust graph edge weights for time-of-day traffic      
+    time_of_day = input("\nEnter the time of day: ").lower()
     adjust_for_traffic(graph, time_of_day)
-
-
-    depot = "A"
-    deliveries = ["B", "C", "D", "E", "X"]  # X is unreachable
-
-    print(f"--- Smart Delivery Planner ---")
-    print(f"Depot: {depot}")
-    print(f"Time of Day: {time_of_day}\n")   
-
-    print("Edge Weights After Traffic Adjustment:")
-    for u in graph.get_nodes():
-        for edge in graph.get_neighbors(u):
-            print(f"  {u} → {edge.to.label} | Distance: {edge.distance} | "
-                  f"Adjusted Time: {edge.adjusted_travel_time():.2f} | "
-                  f"Efficiency (dist/time): {edge.current_weight():.2f}")
-
+    # Get depot location and delivery stops from customers
+    depot = input("\nEnter depot location: ").strip()
+    deliveries = input("Enter delivery stops (comma separated): ").strip().split(',')
+    
     # 1. Test is_route_possible()
-    print("\n\nChecking route feasibility:")
+    print("\nChecking delivery feasibility:")
     for dest in deliveries:
-        possible = is_route_possible(graph, depot, dest)
-        print(f"  {depot} → {dest}: {'Possible' if possible else 'No Route'}")
-
+        if is_route_possible(graph, depot, dest):
+            print(f"  {depot} → {dest}: Route exists.")
+        else:
+            print(f"  {depot} → {dest}: No route")
 
     # 2. Test find_shortest_path()
-    print("\n\nFinding shortest paths:")
+    print("\nFinding the shortest Route...")
     for dest in deliveries:
-        path = find_shortest_path(graph, depot, dest)
-        if path:
-            print(f"  {depot} → {dest}: {' -> '.join(path)}")
-        else:
-            print(f"  {depot} → {dest}: No Path Found")
-
+        print()
+        if is_route_possible(graph, depot, dest):
+            path, distance = find_shortest_path(graph, depot, dest) # Capture both path and distance
+            if path:
+                print(f"  {depot} → {dest}: {' -> '.join(path)} | {distance:.2f} ML") # Print the distance variable
+            else:
+                print(f"  {depot} → {dest}: No Path Found")
 
     # 3. Use plan_delivery() to generate batch delivery plan
-    print("\n\nDelivery Plan Summary:")
-    plans = plan_delivery(graph, depot, deliveries)
-    for dest, path in plans:
+    print("\nDelivery plan:")
+    plans, total_distance = plan_delivery(graph, depot, deliveries)
+    for i, (src, dest, path, dist) in enumerate(plans):
         if path:
-            print(f"  Delivery to {dest}: {' -> '.join(path)}")
+            print(f"  {i+1}. {src} → {dest} ({dist:.2f} ML)")
         else:
-            print(f"  Delivery to {dest}: No Route")
-
+            print(f"  {i+1}. {src} → {dest}: No Route")
+    print(f"Total cost-effective distance: {total_distance:.2f} ML")
+    
     # 4. call visualize_routes
     visualize_routes(graph, plans)
 
