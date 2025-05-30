@@ -60,7 +60,7 @@ time_to_traffic = {
 
 ✅ Sample Output
 
-time_of_Day = "morning"
+time_of_Day = "morning" (traffic_level = 1.5)
 ```
 Welcome to Smart Delivery Route Planner!
 
@@ -88,7 +88,7 @@ Delivery plan:
   3. C → D (12.00 ML)
 Total cost-effective distance: 36.00 ML
 ```
-time_of_day = "night"
+time_of_day = "night" (traffic_level = 0.75)
 ```
 Welcome to Smart Delivery Route Planner!
 
