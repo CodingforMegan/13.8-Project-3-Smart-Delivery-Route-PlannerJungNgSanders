@@ -148,3 +148,6 @@ Refer to DESIGN.md
 - ✅ Purpose: what the function accomplishes
 - ✅ Parameter/Return Values: Data going in and out
 - ✅ Pseudocode: Step-by-step logic in English
+# Sample output
+
+
