@@ -191,15 +191,7 @@ def visualize_routes(graph, plans):
 
     # Highlight selected delivery routes
     route_edges = []
-    for _, path in plans:
-        if path and len(path) > 1:
-            route_edges += [(path[i], path[i+1]) for i in range(len(path)-1)]
-  
-    nx.draw_networkx_edges(G, pos, edgelist=route_edges, edge_color='red', width=2)
-
-    # Highlight selected delivery routes
-    route_edges = []
-    for _, path in plans:
+    for from_label, to_label, path, distance in plans:
         if path and len(path) > 1:
             route_edges += [(path[i], path[i+1]) for i in range(len(path)-1)]
   
@@ -233,7 +225,7 @@ def main():
     adjust_for_traffic(graph, time_of_day)
     # Get depot location and delivery stops from customers
     depot = input("\nEnter depot location: ").strip()
-    deliveries = input("Enter delivery stops (comma separated): ").strip().split(',')
+    deliveries = [x.strip() for x in input("Enter delivery stops (comma separated): ").strip().split(',')]
     
     # 1. Test is_route_possible()
     print("\nChecking delivery feasibility:")
