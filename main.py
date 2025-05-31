@@ -324,7 +324,7 @@ def visualize_routes(graph, plans):
 
     # Highlight selected delivery routes
     route_edges = []
-    for from_label, to_label, path, distance in plans:
+    for from_label, to_label, path, distance, travel_time in plans:
         if path and len(path) > 1:
             route_edges += [(path[i], path[i+1]) for i in range(len(path)-1)]
   
@@ -341,7 +341,6 @@ def visualize_routes(graph, plans):
     nx.draw_networkx_edge_labels(G, pos, edge_labels=efficiency_labels)
 
     plt.title("Smart Delivery Routes with Cost-Efficiency Weights") # Update title
-    plt.tight_layout()
     plt.show()
 
 # =======================================
