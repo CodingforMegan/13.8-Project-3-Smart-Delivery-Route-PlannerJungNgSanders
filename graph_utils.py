@@ -15,8 +15,8 @@ class Vertex:
     Attributes
     ----------
     label : Any
-    lat : int
-    lon : int
+    lat : float
+    lon : float
     neighbors : dictionary that maps a vertex to an edge
 
     Methods
