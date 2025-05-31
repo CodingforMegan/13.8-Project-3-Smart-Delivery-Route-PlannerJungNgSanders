@@ -96,7 +96,7 @@ Least Cost Delivery plan:
   1. A → B (Cost: 0.33 ML/min, Time: 15.00 min)
   2. A → D (Cost: 0.44 ML/min, Time: 22.50 min)
   3. A → E (Cost: 0.78 ML/min, Time: 28.50 min)
-Total cost: 1.56 ML/min
+Cost-efficiency: 1.56 ML/min
 Total travel time: 66.00 min
 Overall average speed: 0.02 ML/min
 ```
@@ -134,7 +134,7 @@ Least Cost Delivery plan:
   1. A → B (Cost: 0.67 ML/min, Time: 7.50 min)
   2. A → D (Cost: 0.89 ML/min, Time: 11.25 min)
   3. A → E (Cost: 1.56 ML/min, Time: 14.25 min)
-Total cost: 3.11 ML/min
+Cost-efficiency: 3.11 ML/min
 Total travel time: 33.00 min
 Overall average speed: 0.09 ML/min
 ```
