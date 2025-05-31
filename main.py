@@ -72,15 +72,15 @@ def find_shortest_path(graph, start_label, end_label):
 
     Parameters
     ----------
-    graph : Graph instance
+    graph : Graph instance containing vertices and edges
     start_label: str which is the starting or "from" vertex
     end_label: str which is the ending or "to" vertex
     
     Returns
     -------
     Tuple containing the shortest path, which is a list of strings and the distance, which is a float.
-    path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices.
-    dist: a float that represents the distance of the shortest path
+    -path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices. Returns None if a path doesn't exist containing the start and end vertices.
+    dist: a float that represents the distance of the shortest path. Returns float 'inf' if the path doesn't exist.
     """       
     if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
         return None
