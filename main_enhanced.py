@@ -134,10 +134,11 @@ def find_least_cost_path(graph, start_label, end_label):
     
     Returns
     -------
-    Tuple containing the path with the lowest cost (list of strings), costs (list of floats), and total time of travel (list of floats).
-    -path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices. Returns None if a path doesn't exist containing the start and end vertices.
-    cost: A list of floats that represents the lowest cost of travel from the starting vertex all other verticed. Returns float 'inf' if the path doesn't exist.
-    -travel_times: A list of floats that represents the travel time for the lowest cost path from the starting vertex to all other vertices. Returns float 'inf' if the path doesn't exist.
+    Tuple containing the path with the lowest cost (list of strings), an element from costs (float), and an element from travel_times (float).
+    -path: A list of the labels of the vertices that represent the shortest path from the starting and ending vertices. Returns None if a path doesn't exist containing the start and end vertices.
+    -cost: A float that is an element of the cost list, which is a list of floats, that represents the lowest cost of travel from the starting vertex the end vertex. Returns float 'inf' if the path doesn't exist.
+    -travel_times: A float that is an element of the travel_times list, which is a list of floats, that represents the travel time for the lowest cost path from the starting vertex to the end vertex. 
+    Returns float 'inf' if the path doesn't exist.
     """      
     if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
         return None, float("inf"), float("inf") # Return None, inf cost, inf time
