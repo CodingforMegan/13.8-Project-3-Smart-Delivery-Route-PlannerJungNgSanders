@@ -16,6 +16,18 @@ import networkx as nx
 # ==========================
 # ==========================
 def build_graph(filename):
+    """
+    Builds a Graph instance using the data from the file that is passed in, which contains data in the format in each line:
+    start label, end label, travel distance, travel time, and traffic level.
+
+    Parameters
+    ----------
+    filename : str which is the name of the file
+    
+    Returns
+    -------
+    Graph instance
+    """     
     graph = Graph()
     with open(filename) as f:
         next(f)
@@ -28,6 +40,19 @@ def build_graph(filename):
 # ==========================
 # ==========================
 def is_route_possible(graph, start_label, end_label):
+    """
+    Verifies if there exists a route from a starting location/vertex to an end location/vertex.
+
+    Parameters
+    ----------
+    graph : Graph instance
+    start_label: str which is the starting or "from" vertex
+    end_label: str which is the ending or "to" vertex
+    
+    Returns
+    -------
+    bool
+    """      
     visited = set()
     stack = [start_label]
     while stack:
@@ -42,6 +67,22 @@ def is_route_possible(graph, start_label, end_label):
 # ==========================
 # ==========================
 def find_shortest_path(graph, start_label, end_label):
+    """
+    Finds the shortest path between two given vertices provided that the two vertices exist in the graph, by implementing
+    Dijkstra's shortest path algorithm.
+
+    Parameters
+    ----------
+    graph : Graph instance containing vertices and edges
+    start_label: str which is the starting or "from" vertex
+    end_label: str which is the ending or "to" vertex
+    
+    Returns
+    -------
+    Tuple containing the shortest path, which is a list of strings and the distance, which is a float.
+    -path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices. Returns None if a path doesn't exist containing the start and end vertices.
+    dist: a float that represents the distance of the shortest path. Returns float 'inf' if the path doesn't exist.
+    """      
     if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
         return None, float("inf")
 
@@ -81,6 +122,23 @@ def find_shortest_path(graph, start_label, end_label):
 # ==========================
 # ==========================
 def find_least_cost_path(graph, start_label, end_label):
+    """
+    Finds the path with the lowest cost between two given vertices provided that the two vertices exist in the graph, by implementing
+    Dijkstra's shortest path algorithm.
+
+    Parameters
+    ----------
+    graph : Graph instance containing vertices and edges
+    start_label: str which is the starting or "from" vertex
+    end_label: str which is the ending or "to" vertex
+    
+    Returns
+    -------
+    Tuple containing the path with the lowest cost (list of strings), costs (list of floats), and total time of travel (list of floats).
+    -path list: a list of the labels of the vertices that represent the shortest path from the starting and ending vertices. Returns None if a path doesn't exist containing the start and end vertices.
+    cost: A list of floats that represents the lowest cost of travel from the starting vertex all other verticed. Returns float 'inf' if the path doesn't exist.
+    -travel_times: A list of floats that represents the travel time for the lowest cost path from the starting vertex to all other vertices. Returns float 'inf' if the path doesn't exist.
+    """      
     if start_label not in graph.get_nodes() or end_label not in graph.get_nodes():
         return None, float("inf"), float("inf") # Return None, inf cost, inf time
 
@@ -100,7 +158,7 @@ def find_least_cost_path(graph, start_label, end_label):
 
         if curr_v not in visited:
             visited.add(curr_v)
-            # Edge(self, to, distiance, travel_time=None, traffic=None, time_of_day=None)
+            # Edge(self, to, distance, travel_time=None, traffic=None, time_of_day=None)
             for edge in graph.get_neighbors(curr_v): # adjacency_list.get(curr_v, [])-> Edge object:
                 to_v = edge.to.label
                 alt_cost = curr_cost + edge.current_weight()
@@ -133,6 +191,22 @@ def find_least_cost_path(graph, start_label, end_label):
 # ===============================
 # ===============================
 def plan_delivery(graph, depot_label, delivery_labels):
+    """
+    Finds the shortest path that contains all vertices/locations from a starting vertex/depot and a list of delivery locations that are to be visited.
+
+    Parameters
+    ----------
+    graph : Graph instance
+    depot_label: str which is the starting or "from" vertex
+    delivery_labels: list of str which contains the labels of all the vertices that are to be visited
+    
+    Returns
+    -------
+    A tuple of plans and total_distance.
+    -plans, a list of tuples in the form (from_label, to_label, path, distance)
+    -total_distance, a float which represents the total distance traveled for all delivery locations rounded to
+    two decimal places
+    """     
     plans = []
     total_distance = 0
     curr_label = depot_label
@@ -149,6 +223,26 @@ def plan_delivery(graph, depot_label, delivery_labels):
 # ===============================
 # ===============================
 def plan_least_cost_delivery(graph, depot_label, delivery_labels):
+    """
+    Finds the path with the lowest cost that contains all vertices/locations from a starting vertex/depot and a list of delivery locations that are to be visited.
+
+    Parameters
+    ----------
+    graph : Graph instance
+    depot_label: str which is the starting or "from" vertex
+    delivery_labels: list of str which contains the labels of all the vertices that are to be visited
+    
+    Returns
+    -------
+    A tuple of plans, total cost, total travel time, and overall average speed.
+    -plans, a list of tuples in the form (from_label, to_label, path, distance)
+    -total_cost, a float which represents the total cost of travel for the lowest cost path that visits all delivery locations rounded to
+    two decimal places
+    -total_travel_time, a float that represents the total travel time for the lowest cost path that visits all delivery locations rounded to
+    two decimal places
+    -overall_avg_speed, a float represents the overall average speed for the lowest cost path that visits all delivery locations rounded to
+    two decimal places, which is calculated by total_cost/total_travel_time
+    """     
     plans = []
     total_cost = 0
     total_travel_time = 0 # Initialize total travel time
