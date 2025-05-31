@@ -62,7 +62,7 @@ time_to_traffic = {
 
 ✅ Sample Output
 
-📥#time_of_Day = "morning" (traffic_level = 1.5)
+# 📥 time_of_Day = "morning" (traffic_level = 1.5)
 ```
 Welcome to Smart Delivery Planner!
 
