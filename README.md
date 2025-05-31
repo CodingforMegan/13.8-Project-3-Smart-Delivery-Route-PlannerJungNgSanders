@@ -64,31 +64,41 @@ time_to_traffic = {
 
 time_of_Day = "morning" (traffic_level = 1.5)
 ```
-Welcome to Smart Delivery Route Planner!
+Welcome to Smart Delivery Planner!
 
 Enter the time of day: Morning
 
 Enter depot location: A
-Enter delivery stops (comma separated): B,C,D
+Enter delivery stops (comma separated): B,D,E
 
 Checking delivery feasibility:
   A → B: Route exists.
-  A → C: Route exists.
   A → D: Route exists.
+  A → E: Route exists.
 
-Finding the shortest Route...
+Finding the shortest route...
+  A → B: A -> B | 5.00 ML
+  A → D: A -> D | 10.00 ML
+  A → E: A -> D -> E | 12.00 ML
 
-  A → B: A -> B | 15.00 ML
+Finding the least cost route...
+  A → B: A -> B | 0.33 ML/min | 15.00 min
+  A → D: A -> D | 0.44 ML/min | 22.50 min
+  A → E: A -> D -> E | 0.78 ML/min | 28.50 min
 
-  A → C: A -> B -> C | 24.00 ML
+Static Delivery plan:
+  1. A → B (5.00 ML)
+  2. B → D (7.00 ML)
+  3. D → E (2.00 ML)
+Total distance: 14.00 ML
 
-  A → D: A -> D | 22.50 ML
-
-Delivery plan:
-  1. A → B (15.00 ML)
-  2. B → C (9.00 ML)
-  3. C → D (12.00 ML)
-Total cost-effective distance: 36.00 ML
+Least Cost Delivery plan:
+  1. A → B (Cost: 0.33 ML/min, Time: 15.00 min)
+  2. A → D (Cost: 0.44 ML/min, Time: 22.50 min)
+  3. A → E (Cost: 0.78 ML/min, Time: 28.50 min)
+Total cost: 1.56 ML/min
+Total travel time: 66.00 min
+Overall average speed: 0.02 ML/min
 ```
 time_of_day = "night" (traffic_level = 0.75)
 ```
