@@ -3,7 +3,7 @@
 ## Group Members
 Group Members: Michael Jung (ID:10680322), Timothy Sanders (ID: 01002147), Megan Ng (ID: 00756276)
 
-## 🧠 Project Design & Structure
+# 🧠 Project Design & Structure
 ```
 project_3/
 ├── main.py:
@@ -20,7 +20,7 @@ project_3/
 └── DESIGN.md
 ```
 
-## 📄 Overview
+# 📄 Overview
 ✅ Real-world purpose of the project
 
 In this lab, our team will design and develop a graph-based Smart Delivery Route Planner System to help a logistics company provide reliable and adaptive delivery services to its customers while optimizing its efficiency.
@@ -62,7 +62,7 @@ time_to_traffic = {
 
 ✅ Sample Output
 
-# 📥 time_of_Day = "morning" (traffic_level = 1.5)
+## 📥 time_of_Day = "morning" (traffic_level = 1.5)
 ```
 Welcome to Smart Delivery Planner!
 
@@ -100,7 +100,7 @@ Cost-efficiency: 1.56 ML/min
 Total travel time: 66.00 min
 Overall average speed: 0.02 ML/min
 ```
-# 📥time_of_day = "night" (traffic_level = 0.75)
+## 📥time_of_day = "night" (traffic_level = 0.75)
 ```
 Welcome to Smart Delivery Planner!
 
