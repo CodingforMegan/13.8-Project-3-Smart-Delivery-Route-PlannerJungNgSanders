@@ -149,5 +149,5 @@ Refer to DESIGN.md
 - ✅ Parameter/Return Values: Data going in and out
 - ✅ Pseudocode: Step-by-step logic in English
 # Sample output
-"![Sample Input](Screenshot 2025-05-31 163845.png)"
+![Sample Input](Screenshot 2025-05-31 163845.png)
 
