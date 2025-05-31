@@ -30,6 +30,7 @@ If the route is available, it applies graph algorithms such as Dijkstra’s algo
 Furthermore, our planning system also can dynamically adapt delivery routes in real time to prioritize urgent shipments while still efficiently handling regular deliveries.
 
 🧠 Limitation of project
+
 Our current lab simulation simplifies traffic conditions by uniformly updating all routes at once. For example, all routes are designated as having heavy traffic in the morning and light traffic at night. This model does not well simulate the real-time application. To better align with real-world conditions, we must adopt a more sophisticated traffic model that differentiates routes either individually or by category.
 
 
