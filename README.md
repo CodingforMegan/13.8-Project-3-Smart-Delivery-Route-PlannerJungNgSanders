@@ -62,7 +62,7 @@ time_to_traffic = {
 
 ✅ Sample Output
 
-📥time_of_Day = "morning" (traffic_level = 1.5)
+📥#time_of_Day = "morning" (traffic_level = 1.5)
 ```
 Welcome to Smart Delivery Planner!
 
@@ -100,7 +100,7 @@ Cost-efficiency: 1.56 ML/min
 Total travel time: 66.00 min
 Overall average speed: 0.02 ML/min
 ```
-📥time_of_day = "night" (traffic_level = 0.75)
+# 📥time_of_day = "night" (traffic_level = 0.75)
 ```
 Welcome to Smart Delivery Planner!
 
