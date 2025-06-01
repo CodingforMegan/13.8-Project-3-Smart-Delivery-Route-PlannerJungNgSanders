@@ -153,10 +153,8 @@ python -m unittest discover
 ```
 or 
 ```
-pip install pytest   
-```
-```
-pip install pytest    pytest         
+pip install pytest
+pytest         
 ```
 
 📄 Function Designs 
