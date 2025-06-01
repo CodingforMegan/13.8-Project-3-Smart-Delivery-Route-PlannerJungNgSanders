@@ -157,16 +157,27 @@ Overall average speed: 0.09 ML/min
 ![Screenshot 2025-05-31 163845](https://github.com/user-attachments/assets/d16e03af-1f3b-4a88-8c32-61278be6794b)
 
 ## 📊 Test
+To run the unit tests for the repository, run the commands below
+```shell
+python -m pip install pytest
+python -m pytest .
 ```
-python -m unittest discover     
-```
-or 
-```
-pip install pytest
-pytest         
+Example output is shown below
+```text
+================================== test session starts ===================================
+platform darwin -- Python 3.13.2, pytest-8.3.5, pluggy-1.6.0
+rootdir: /Users/tim/School/13.8-Project-3-Smart-Delivery-Route-PlannerJungNgSanders
+plugins: cov-6.1.1
+collected 39 items
+
+tests/test_graph_utils.py ...................                                      [ 48%]
+tests/test_main.py .......                                                         [ 66%]
+tests/test_traffic_simulation.py .............                                     [100%]
+
+=================================== 39 passed in 0.18s ===================================
 ```
 
-📄 Function Designs 
+## 📄 Function Designs 
 Refer to DESIGN.md
 - ✅ Purpose: what the function accomplishes
 - ✅ Parameter/Return Values: Data going in and out
