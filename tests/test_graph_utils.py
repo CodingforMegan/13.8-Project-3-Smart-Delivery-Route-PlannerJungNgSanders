@@ -117,7 +117,6 @@ def test_graph_get_edge(test_graph):
     assert found_edge_weight == 0.5
     assert isinstance(found_edge_weight, float)
 
-@pytest.mark.skip("Issues with Graph.update_edge() method")
 def test_graph_update_edge(test_graph):
     assert test_graph.get_edge("A", "B") == 0.5
     test_graph.update_edge("A", "B", key="base_travel_time", value=5)
