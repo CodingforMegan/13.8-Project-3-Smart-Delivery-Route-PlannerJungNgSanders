@@ -33,7 +33,7 @@ project_3/
 - If the route is available, it applies graph algorithms such as Dijkstra’s algorithm to compute the shortest path between delivery points, and may use DFS or BFS to determine route connectivity. The system then generates an optimal delivery route that considers key factors such as distance, travel time, and delivery urgency.
 - Furthermore, our planning system also can dynamically adapt delivery routes in real time to prioritize urgent shipments while still efficiently handling regular deliveries.
 
-## 🧠 Limitation of project
+## 🧠 Limitation of our design
 
 Our current lab simulation simplifies traffic conditions by uniformly updating all routes at once. For example, all routes are designated as having heavy traffic in the morning and light traffic at night. This model does not well simulate the real-time application. To better align with real-world conditions, we must adopt a more sophisticated traffic model that differentiates routes either individually or by category.
 
