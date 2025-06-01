@@ -55,7 +55,7 @@ A	        D	        10	        15	        low
 ```
 ![Sample Input](sample_input.png)
 
-## ✅ Traffic Adjustement Criteria
+## ✅ Traffic Adjustment Criteria
 ```
 Traffic_level{
         "heavy": 1.5,
