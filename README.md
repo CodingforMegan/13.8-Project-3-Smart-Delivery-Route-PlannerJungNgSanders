@@ -149,7 +149,7 @@ Overall average speed: 0.09 ML/min
 
 ## 📊 Test
 ```
-
+python -m unittest discover     
 ```
 
 
