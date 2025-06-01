@@ -18,7 +18,7 @@ project_3/
 ├── traffic_simulation.py:
 ├           adjust_for_traffic(graph, time_of_day)
 ├           get_traffic_multiplier(traffic_level)
-├── test:
+├── test/
 ├           test_graph_utils.py
 ├           test_main.py
 ├           test_traffic_simulation.py
