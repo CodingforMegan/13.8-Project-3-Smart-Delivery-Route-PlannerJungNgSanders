@@ -13,11 +13,16 @@ project_3/
 ├           find_least_cost_path(graph, start, end)
 ├           plan_delivery(graph, start, end)
 ├           plan_lost_cost_delivery(graph, start, end)
-├── graph_utils.py:
+├── graph_utils.py: 
 ├           Vertex class, Graph class, Edge class
 ├── traffic_simulation.py:
 ├           adjust_for_traffic(graph, time_of_day)
 ├           get_traffic_multiplier(traffic_level)
+├── test:
+├           test_graph_utils.py
+├           test_main.py
+├           test_traffic_simulation.py
+├           __init__.py  
 ├── design_doc.pdf
 ├── sample_input.csv
 ├── README.md
