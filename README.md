@@ -21,7 +21,7 @@ project_3/
 ```
 
 # 📄 Overview
-##✅ Real-world purpose of the project
+## ✅ Real-world purpose of the project
 
 - In this lab, our team will design and develop a graph-based Smart Delivery Route Planner System to help a logistics company provide reliable and adaptive delivery services to its customers while optimizing its efficiency.
 - The core goal of this system is to minimize delivery time and travel distance, thereby reducing fuel consumption, labor costs, and transportation delays—all of which contribute to a satisfying and cost-effective customer experience.
@@ -29,12 +29,12 @@ project_3/
 - If the route is available, it applies graph algorithms such as Dijkstra’s algorithm to compute the shortest path between delivery points, and may use DFS or BFS to determine route connectivity. The system then generates an optimal delivery route that considers key factors such as distance, travel time, and delivery urgency.
 - Furthermore, our planning system also can dynamically adapt delivery routes in real time to prioritize urgent shipments while still efficiently handling regular deliveries.
 
-##🧠 Limitation of project
+## 🧠 Limitation of project
 
 Our current lab simulation simplifies traffic conditions by uniformly updating all routes at once. For example, all routes are designated as having heavy traffic in the morning and light traffic at night. This model does not well simulate the real-time application. To better align with real-world conditions, we must adopt a more sophisticated traffic model that differentiates routes either individually or by category.
 
 
-##✅ Input
+## ✅ Input
 sample_input.csv
 ```
 from_vertex	to_vertex	distance	travel_time	traffic
@@ -46,7 +46,7 @@ A	        D	        10	        15	        low
 ```
 ![Sample Input](sample_input.png)
 
-##✅ Traffic Adjustement Criteria
+## ✅ Traffic Adjustement Criteria
 ```
 Traffic_level{
         "heavy": 1.5,
@@ -65,7 +65,7 @@ time_to_traffic = {
     }
 ```
 
-##✅ Sample Output
+## ✅ Sample Output
 
 ### 📥 time_of_Day = "morning" (traffic_level = 1.5)
 ```
