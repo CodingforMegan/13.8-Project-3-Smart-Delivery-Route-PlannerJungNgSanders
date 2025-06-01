@@ -151,7 +151,13 @@ Overall average speed: 0.09 ML/min
 ```
 python -m unittest discover     
 ```
-
+or 
+```
+pip install pytest   
+```
+```
+pip install pytest    pytest         
+```
 
 📄 Function Designs 
 Refer to DESIGN.md
